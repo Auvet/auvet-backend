@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Clinica {
+  cnpj        String   @id @db.VarChar(14)
+  nome        String   @db.VarChar(100)
+  endereco    String?  @db.VarChar(255)
+  telefone    String?  @db.VarChar(20)
+  criadoEm    DateTime @default(now()) @map("criado_em")
+  
+  usuarios    Usuario[]
+  
+  @@map("clinica")
+}
+
+model Usuario {
+  cpf           String   @id @db.VarChar(11)
+  nome          String   @db.VarChar(100)
+  email         String   @unique @db.VarChar(100)
+  senha         String   @db.VarChar(255)
+  telefone      String?  @db.VarChar(20)
+  role          String   @db.VarChar(20)
+  cnpjClinica  String   @map("cnpj_clinica") @db.VarChar(14)
+  
+  clinica      Clinica  @relation(fields: [cnpjClinica], references: [cnpj], onDelete: Cascade)
+  animais      Animal[]
+  agendamentos Agendamento[] @relation("FuncionarioAgendamento")
+  
+  @@map("usuario")
+}
+
+model Animal {
+  idAnimal   Int      @id @default(autoincrement()) @map("id_animal")
+  nome       String   @db.VarChar(100)
+  especie    String?  @db.VarChar(50)
+  raca       String?  @db.VarChar(50)
+  idade      Int?
+  peso       Decimal? @db.Decimal(5, 2)
+  idTutor    String   @map("id_tutor") @db.VarChar(11)
+  
+  tutor      Usuario  @relation(fields: [idTutor], references: [cpf], onDelete: Cascade)
+  agendamentos Agendamento[]
+  vacinas    Vacina[]
+  
+  @@map("animal")
+}
+
+model Agendamento {
+  idAgendamento   Int      @id @default(autoincrement()) @map("id_agendamento")
+  dataHora        DateTime @map("data_hora")
+  tipo            String?  @db.VarChar(50)
+  observacoes     String?  @db.Text
+  idAnimal        Int      @map("id_animal")
+  cpfFuncionario  String   @map("cpf_funcionario") @db.VarChar(11)
+  
+  animal          Animal   @relation(fields: [idAnimal], references: [idAnimal], onDelete: Cascade)
+  funcionario     Usuario  @relation("FuncionarioAgendamento", fields: [cpfFuncionario], references: [cpf], onDelete: Cascade)
+  
+  @@map("agendamento")
+}
+
+model Vacina {
+  idVacina        Int      @id @default(autoincrement()) @map("id_vacina")
+  nome            String   @db.VarChar(100)
+  dataAplicacao   DateTime @map("data_aplicacao")
+  validade        DateTime?
+  idAnimal        Int      @map("id_animal")
+  
+  animal          Animal   @relation(fields: [idAnimal], references: [idAnimal], onDelete: Cascade)
+  
+  @@map("vacina")
+}
