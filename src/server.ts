@@ -1,19 +1,24 @@
 import express, { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
 import dotenv from 'dotenv';
+import routes from './routes';
+import prisma from './config/database';
 
 dotenv.config();
 
 const app = express();
-const prisma = new PrismaClient();
 const PORT = process.env['PORT'] || 3000;
 
 app.use(express.json());
+app.use('/api', routes);
 
 app.get('/', (_req: Request, res: Response) => {
   res.json({
     message: 'AUVET Backend is running!',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      funcionarios: '/api/funcionarios'
+    }
   });
 });
 
