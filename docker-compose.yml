@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: auvet-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: auvet_db
+      MYSQL_USER: auvet_user
+      MYSQL_PASSWORD: auvet123
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - auvet-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "auvet_user", "-pauvet123"]
+      timeout: 20s
+      retries: 10
+      interval: 10s
+      start_period: 30s
+
+  backend:
+    build: .
+    container_name: auvet-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mysql://auvet_user:auvet123@mysql:3306/auvet_db
+      - PORT=3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - auvet-network
+
+volumes:
+  mysql_data:
+
+networks:
+  auvet-network:
+    driver: bridge

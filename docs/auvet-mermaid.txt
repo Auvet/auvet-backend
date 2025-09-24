@@ -1,0 +1,89 @@
+yclassDiagram
+    class Usuario {
+        - cpf : string
+        - nome : string
+        - email : string
+        - senha : string
+        - dataCadastro : date
+        + login(email, senha) : boolean
+        + atualizarPerfil(nome, email, senha) : void
+    }
+
+    class Funcionario {
+        - cargo : string
+        - registroProfissional : string
+        - status : string
+        - nivelAcesso : int
+        + cadastrarTutor(tutor : Tutor) : void
+        + atualizarTutor(tutor : Tutor) : void
+        + cadastrarAnimal(animal : Animal) : void
+        + atualizarAnimal(animal : Animal) : void
+        + agendarConsulta(consulta : Consulta) : void
+        + registrarConsulta(consulta : Consulta) : void
+        + gerarRelatorioClinica() : string
+    }
+
+    class Tutor {
+        - telefone : string
+        - endereco : string
+        + cadastrarAnimal(animal : Animal) : void
+        + atualizarAnimal(animal : Animal) : void
+        + agendarConsulta(consulta : Consulta) : void
+    }
+
+    class Clinica {
+        - cnpj : string
+        - nome : string
+        - endereco : string
+        - telefone : string
+        - email : string
+        - dataCadastro : date
+        + cadastrarFuncionario(func : Funcionario) : void
+        + gerarRelatorio() : string
+    }
+
+    class Animal {
+        - id : int
+        - nome : string
+        - especie : string
+        - raca : string
+        - sexo : string
+        - dataDeNascimento : date
+        - peso : float
+        + adicionarVacina(vacina : Vacina) : void
+        + atualizarVacina(vacina : Vacina) : void
+        + listarVacinas() : Vacina[]
+        + agendarConsulta(consulta : Consulta) : void
+    }
+
+    class Vacina {
+        - id : int
+        - nome : string
+        - fabricante : string
+        - dataAplicacao : date
+        - dataValidade : date
+        + aplicarVacina(animal : Animal) : void
+    }
+
+    class Consulta {
+        - id : int
+        - data : date
+        - hora : time
+        - motivo : string
+        - status : string
+        - observacoes : string
+        + marcar(animal : Animal, funcionario : Funcionario) : void
+        + cancelar() : void
+        + concluir() : void
+    }
+
+    %% Herança
+    Usuario <|-- Funcionario
+    Usuario <|-- Tutor
+
+    %% Relacionamentos (apenas uma seta)
+    Clinica "1" --> "0..*" Funcionario : "emprega"
+    Tutor "1" --> "0..*" Animal : "é tutor de"
+    Animal "1" --> "0..*" Vacina : "recebe"
+    Animal "1" --> "0..*" Consulta : "tem"
+    Funcionario "1" --> "0..*" Consulta : "realiza"

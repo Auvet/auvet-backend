@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Clinica {
+  cnpj              String   @id @db.VarChar(14)
+  nome              String   @db.VarChar(100)
+  endereco          String?  @db.VarChar(200)
+  telefone          String?  @db.VarChar(20)
+  email             String?  @db.VarChar(100)
+  dataCadastro      DateTime @default(now()) @map("data_cadastro")
+  administradorCpf  String   @map("administrador_cpf") @db.VarChar(11)
+  
+  administrador     Funcionario @relation(fields: [administradorCpf], references: [cpf])
+  
+  @@map("clinica")
+}
+
+model Usuario {
+  cpf           String   @id @db.VarChar(11)
+  nome          String   @db.VarChar(100)
+  email         String   @unique @db.VarChar(100)
+  senha         String   @db.VarChar(255)
+  dataCadastro  DateTime @default(now()) @map("data_cadastro")
+  
+  funcionario   Funcionario?
+  tutor         Tutor?
+  
+  @@map("usuario")
+}
+
+model Funcionario {
+  cpf                   String   @id @db.VarChar(11)
+  cargo                 String   @db.VarChar(50)
+  registroProfissional  String?  @map("registro_profissional") @db.VarChar(50)
+  status                String   @default("ativo") @db.VarChar(20)
+  nivelAcesso           Int      @default(1) @map("nivel_acesso")
+  
+  usuario               Usuario  @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
+  clinicas              Clinica[]
+  consultas             Consulta[]
+  
+  @@map("funcionario")
+}
+
+model Tutor {
+  cpf       String   @id @db.VarChar(11)
+  telefone  String?  @db.VarChar(20)
+  endereco  String?  @db.VarChar(200)
+  
+  usuario   Usuario  @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
+  animais   Animal[]
+  
+  @@map("tutor")
+}
+
+model Animal {
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(50)
+  especie   String?  @db.VarChar(50)
+  raca      String?  @db.VarChar(50)
+  sexo      String?  @db.Char(1)
+  idade     Int?
+  peso      Decimal? @db.Decimal(5, 2)
+  tutorCpf  String   @map("tutor_cpf") @db.VarChar(11)
+  
+  tutor     Tutor    @relation(fields: [tutorCpf], references: [cpf], onDelete: Cascade)
+  consultas Consulta[]
+  vacinas   Vacina[]
+  
+  @@map("animal")
+}
+
+model Consulta {
+  id              Int      @id @default(autoincrement())
+  data            DateTime @db.Date
+  hora            DateTime @db.Time
+  motivo          String?  @db.VarChar(200)
+  status          String   @default("agendada") @db.VarChar(20)
+  observacoes     String?  @db.Text
+  animalId        Int      @map("animal_id")
+  funcionarioCpf  String   @map("funcionario_cpf") @db.VarChar(11)
+  
+  animal          Animal     @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  funcionario     Funcionario @relation(fields: [funcionarioCpf], references: [cpf])
+  
+  @@map("consulta")
+}
+
+model Vacina {
+  id            Int      @id @default(autoincrement())
+  nome          String   @db.VarChar(50)
+  fabricante    String?  @db.VarChar(50)
+  dataAplicacao DateTime @map("data_aplicacao") @db.Date
+  dataValidade  DateTime? @map("data_validade") @db.Date
+  animalId      Int      @map("animal_id")
+  
+  animal        Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  
+  @@map("vacina")
+}

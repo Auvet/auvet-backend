@@ -1,0 +1,51 @@
+{
+  "name": "auvet-backend",
+  "version": "1.0.0",
+  "description": "Backend da aplicação Auvet - Sistema de Gerenciamento de Clínicas Veterinárias",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc",
+    "build:full": "tsc && prisma generate && prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:funcionario": "jest src/modules/funcionario/funcionario.test.ts"
+  },
+  "keywords": [
+    "veterinary",
+    "clinic",
+    "api",
+    "nodejs",
+    "prisma"
+  ],
+  "author": "Izabella Alves Pereira",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^5.19.1",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@types/supertest": "^2.0.16",
+    "jest": "^29.5.0",
+    "nodemon": "^3.0.2",
+    "prisma": "^5.19.1",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.0"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  }
+}
