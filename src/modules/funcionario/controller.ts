@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { FuncionarioService } from './service';
 import { ApiResponse, Funcionario, Usuario } from '../../types';
+import { FuncionarioValidator } from '../../utils/validators';
 
 export class FuncionarioController {
   private funcionarioService: FuncionarioService;
@@ -24,10 +25,11 @@ export class FuncionarioController {
     try {
       const { cpf, nome, email, senha, cargo, registroProfissional, status, nivelAcesso } = req.body;
 
-      if (!cpf || !nome || !email || !senha || !cargo) {
+      const validation = FuncionarioValidator.validateFuncionarioData(req.body);
+      if (!validation.isValid) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF, nome, email, senha e cargo são obrigatórios'
+          error: validation.errors.join(', ')
         };
         res.status(400).json(response);
         return;
@@ -44,8 +46,8 @@ export class FuncionarioController {
       const funcionarioData: Omit<Funcionario, 'cpf'> = {
         cargo,
         registroProfissional: registroProfissional || null,
-        status: status || 'ativo',
-        nivelAcesso: nivelAcesso || 1
+        status: (status || 'ativo').toLowerCase(),
+        nivelAcesso: nivelAcesso !== undefined ? nivelAcesso : 1
       };
 
       const funcionarioCriado = await this.funcionarioService.createFuncionario(usuarioData, funcionarioData);
@@ -135,6 +137,10 @@ export class FuncionarioController {
     try {
       const { cpf } = req.params;
       const updateData: Partial<Funcionario> = req.body;
+      
+      if (updateData.status) {
+        updateData.status = updateData.status.toLowerCase();
+      }
 
       if (!cpf) {
         const response: ApiResponse = {

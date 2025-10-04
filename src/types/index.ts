@@ -1,9 +1,9 @@
 export interface Clinica {
   cnpj: string;
   nome: string;
-  endereco?: string;
-  telefone?: string;
-  email?: string;
+  endereco: string | null;
+  telefone: string | null;
+  email: string | null;
   dataCadastro: Date;
   administradorCpf: string;
 }
@@ -26,18 +26,18 @@ export interface Funcionario {
 
 export interface Tutor {
   cpf: string;
-  telefone?: string;
-  endereco?: string;
+  telefone: string | null;
+  endereco: string | null;
 }
 
 export interface Animal {
   id: number;
   nome: string;
-  especie?: string;
-  raca?: string;
-  sexo?: string;
-  idade?: number;
-  peso?: number;
+  especie: string | null;
+  raca: string | null;
+  sexo: string | null;
+  idade: number | null;
+  peso: number | null;
   tutorCpf: string;
 }
 
@@ -45,9 +45,9 @@ export interface Consulta {
   id: number;
   data: Date;
   hora: Date;
-  motivo?: string;
+  motivo: string | null;
   status: string;
-  observacoes?: string;
+  observacoes: string | null;
   animalId: number;
   funcionarioCpf: string;
 }
@@ -55,9 +55,9 @@ export interface Consulta {
 export interface Vacina {
   id: number;
   nome: string;
-  fabricante?: string;
+  fabricante: string | null;
   dataAplicacao: Date;
-  dataValidade?: Date;
+  dataValidade: Date | null;
   animalId: number;
 }
 

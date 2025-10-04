@@ -16,8 +16,26 @@ RUN npm run build
 
 EXPOSE 3000
 
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+RUN echo '#!/bin/bash\n\
+echo "Starting AUVET Backend..."\n\
+\n\
+# Wait for MySQL to be ready\n\
+while ! nc -z mysql 3306; do\n\
+  echo "Waiting for MySQL..."\n\
+  sleep 1\n\
+done\n\
+echo "Database is ready!"\n\
+\n\
+# Generate Prisma client\n\
+echo "Generating Prisma client..."\n\
+npx prisma generate\n\
+\n\
+# Push database schema\n\
+echo "Pushing database schema..."\n\
+npx prisma db push --force-reset\n\
+\n\
+echo "Starting application..."\n\
+exec "$@"' > /usr/local/bin/docker-entrypoint.sh && \
+    chmod +x /usr/local/bin/docker-entrypoint.sh
 
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["npm", "run", "dev"]

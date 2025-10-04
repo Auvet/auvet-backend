@@ -1,6 +1,7 @@
 import { Funcionario, Usuario } from '../../types';
 import { FuncionarioRepository } from './repository';
 import { UsuarioService } from '../usuario/service';
+import { FuncionarioValidator } from '../../utils/validators';
 
 export class FuncionarioService {
   private funcionarioRepository: FuncionarioRepository;
@@ -13,6 +14,19 @@ export class FuncionarioService {
 
   async createFuncionario(usuarioData: Usuario, funcionarioData: Omit<Funcionario, 'cpf'>): Promise<Funcionario> {
     console.log(`Iniciando criação de funcionário para CPF: ${usuarioData.cpf}`);
+    
+    const validation = FuncionarioValidator.validateFuncionarioData({
+      cpf: usuarioData.cpf,
+      nome: usuarioData.nome,
+      email: usuarioData.email,
+      senha: usuarioData.senha,
+      cargo: funcionarioData.cargo,
+      nivelAcesso: funcionarioData.nivelAcesso
+    });
+    
+    if (!validation.isValid) {
+      throw new Error(validation.errors.join(', '));
+    }
     
     const existingUsuario = await this.usuarioService.getByCpf(usuarioData.cpf);
     if (existingUsuario) {
