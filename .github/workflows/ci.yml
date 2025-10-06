@@ -35,6 +35,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    - name: Install Prisma CLI
+      run: npm install -g prisma
+
     - name: Generate Prisma client
       run: npx prisma generate
 
