@@ -37,16 +37,16 @@ describe('ClinicaController - Testes de Integração', () => {
     prisma.clinica.create.mockResolvedValue({});
     prisma.clinica.update.mockResolvedValue(null);
     prisma.clinica.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /clinicas', () => {
-    it('deve falhar ao criar clínica com dados inválidos', async () => {
+    it('deve falhar ao criar clínica com dados inválidos', async() => {
       const clinicaData = {
         cnpj: '123',
         nome: 'Clínica Teste',
-        administradorCpf: '123'
+        administradorCpf: '123',
       };
 
       const response = await request(app)
@@ -57,14 +57,14 @@ describe('ClinicaController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar clínica com CNPJ inválido', async () => {
+    it('deve falhar ao criar clínica com CNPJ inválido', async() => {
       const clinicaData = {
         cnpj: '123456789012345',
         nome: 'Clínica Teste',
         administradorCpf: '12345678901',
         endereco: 'Rua Teste',
         telefone: '11999999999',
-        email: 'teste@clinica.com'
+        email: 'teste@clinica.com',
       };
 
       const response = await request(app)
@@ -77,7 +77,7 @@ describe('ClinicaController - Testes de Integração', () => {
   });
 
   describe('GET /clinicas', () => {
-    it('deve retornar lista vazia quando não há clínicas', async () => {
+    it('deve retornar lista vazia quando não há clínicas', async() => {
       const response = await request(app)
         .get('/clinicas');
 
@@ -88,7 +88,7 @@ describe('ClinicaController - Testes de Integração', () => {
   });
 
   describe('GET /clinicas/:cnpj', () => {
-    it('deve retornar erro para clínica inexistente', async () => {
+    it('deve retornar erro para clínica inexistente', async() => {
       const response = await request(app)
         .get('/clinicas/12345678901234');
 
@@ -98,7 +98,7 @@ describe('ClinicaController - Testes de Integração', () => {
   });
 
   describe('PUT /clinicas/:cnpj', () => {
-    it('deve retornar erro para clínica inexistente', async () => {
+    it('deve retornar erro para clínica inexistente', async() => {
       const updateData = { nome: 'Clínica Atualizada' };
       const response = await request(app)
         .put('/clinicas/12345678901234')
@@ -110,7 +110,7 @@ describe('ClinicaController - Testes de Integração', () => {
   });
 
   describe('DELETE /clinicas/:cnpj', () => {
-    it('deve retornar erro para clínica inexistente', async () => {
+    it('deve retornar erro para clínica inexistente', async() => {
       const response = await request(app)
         .delete('/clinicas/12345678901234');
 

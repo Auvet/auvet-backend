@@ -11,7 +11,7 @@ export class UsuarioService {
 
   async create(usuarioData: Usuario): Promise<Usuario> {
     console.log(`Criando usuário: ${usuarioData.cpf}`);
-    
+
     const validation = UsuarioValidator.validateUsuarioData(usuarioData);
     if (!validation.isValid) {
       throw new Error(validation.errors.join(', '));
@@ -30,7 +30,7 @@ export class UsuarioService {
 
   async getByCpf(cpf: string): Promise<Usuario | null> {
     console.log(`Buscando usuário por CPF: ${cpf}`);
-    
+
     const usuario = await this.usuarioRepository.getByCpf(cpf);
 
     if (usuario) {
@@ -38,23 +38,23 @@ export class UsuarioService {
     } else {
       console.log(`Usuário não encontrado para CPF: ${cpf}`);
     }
-    
+
     return usuario;
   }
 
   async getAll(): Promise<Usuario[]> {
     console.log('Buscando todos os usuários');
-    
+
     const usuarios = await this.usuarioRepository.getAll();
-    
+
     console.log(`Encontrados ${usuarios.length} usuários`);
-    
+
     return usuarios;
   }
 
   async update(cpf: string, updateData: Partial<Usuario>): Promise<Usuario | null> {
     console.log(`Atualizando usuário CPF: ${cpf}`);
-    
+
     const existingUser = await this.usuarioRepository.getByCpf(cpf);
     if (!existingUser) {
       throw new Error('Usuário não encontrado');
@@ -67,13 +67,13 @@ export class UsuarioService {
     } else {
       console.log(`Falha ao atualizar usuário CPF: ${cpf}`);
     }
-    
+
     return usuario;
   }
 
   async delete(cpf: string): Promise<boolean> {
     console.log(`Deletando usuário CPF: ${cpf}`);
-    
+
     const existingUser = await this.usuarioRepository.getByCpf(cpf);
     if (!existingUser) {
       throw new Error('Usuário não encontrado');
@@ -86,19 +86,19 @@ export class UsuarioService {
     } else {
       console.log(`Falha ao deletar usuário CPF: ${cpf}`);
     }
-    
+
     return success;
   }
 
   async login(cpf: string, senha: string): Promise<Usuario> {
     console.log(`Tentativa de login para CPF: ${cpf}`);
-    
+
     if (!cpf || !senha) {
       throw new Error('CPF e senha são obrigatórios');
     }
 
     const usuario = await this.usuarioRepository.getByCpf(cpf);
-    
+
     if (!usuario) {
       throw new Error('Usuário não encontrado');
     }
@@ -108,7 +108,7 @@ export class UsuarioService {
     }
 
     console.log(`Login realizado com sucesso para CPF: ${cpf}`);
-    
+
     return usuario;
   }
 }

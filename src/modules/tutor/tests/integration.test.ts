@@ -24,32 +24,32 @@ describe('TutorController - Testes de Integração', () => {
     app = express();
     app.use(express.json());
     tutorController = new TutorController();
-    
+
     app.post('/tutores', tutorController.create.bind(tutorController));
     app.get('/tutores', tutorController.getAll.bind(tutorController));
     app.get('/tutores/:cpf', tutorController.getByCpf.bind(tutorController));
     app.put('/tutores/:cpf', tutorController.update.bind(tutorController));
     app.delete('/tutores/:cpf', tutorController.delete.bind(tutorController));
-    
+
     const prisma = require('../../../config/database');
     prisma.tutor.findMany.mockResolvedValue([]);
     prisma.tutor.findUnique.mockResolvedValue(null);
     prisma.tutor.create.mockResolvedValue({});
     prisma.tutor.update.mockResolvedValue(null);
     prisma.tutor.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /tutores', () => {
-    it('deve falhar ao criar tutor com dados inválidos', async () => {
+    it('deve falhar ao criar tutor com dados inválidos', async() => {
       const tutorData = {
         cpf: '',
         nome: 'João Silva',
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const response = await request(app)
@@ -60,14 +60,14 @@ describe('TutorController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar tutor com telefone inválido', async () => {
+    it('deve falhar ao criar tutor com telefone inválido', async() => {
       const tutorData = {
         cpf: '12345678901',
         nome: 'João Silva',
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const response = await request(app)
@@ -80,7 +80,7 @@ describe('TutorController - Testes de Integração', () => {
   });
 
   describe('GET /tutores', () => {
-    it('deve retornar lista vazia quando não há tutores', async () => {
+    it('deve retornar lista vazia quando não há tutores', async() => {
       const response = await request(app)
         .get('/tutores');
 
@@ -92,7 +92,7 @@ describe('TutorController - Testes de Integração', () => {
   });
 
   describe('GET /tutores/:cpf', () => {
-    it('deve retornar erro para tutor inexistente', async () => {
+    it('deve retornar erro para tutor inexistente', async() => {
       const response = await request(app)
         .get('/tutores/99999999999');
 
@@ -102,9 +102,9 @@ describe('TutorController - Testes de Integração', () => {
   });
 
   describe('PUT /tutores/:cpf', () => {
-    it('deve retornar erro para tutor inexistente', async () => {
+    it('deve retornar erro para tutor inexistente', async() => {
       const updateData = { telefone: '11988888888' };
-      
+
       const response = await request(app)
         .put('/tutores/99999999999')
         .send(updateData);
@@ -115,10 +115,10 @@ describe('TutorController - Testes de Integração', () => {
   });
 
   describe('DELETE /tutores/:cpf', () => {
-    it('deve retornar erro para tutor inexistente', async () => {
+    it('deve retornar erro para tutor inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.tutor.delete.mockRejectedValue(new Error('Tutor não encontrado'));
-      
+
       const response = await request(app)
         .delete('/tutores/99999999999');
 

@@ -30,7 +30,7 @@ export class VacinaController {
       if (!validation.isValid) {
         const response: ApiResponse = {
           success: false,
-          error: validation.errors.join(', ')
+          error: validation.errors.join(', '),
         };
         res.status(400).json(response);
         return;
@@ -41,24 +41,24 @@ export class VacinaController {
         fabricante: fabricante || null,
         dataAplicacao: new Date(dataAplicacao),
         dataValidade: dataValidade ? new Date(dataValidade) : null,
-        animalId
+        animalId,
       };
 
       const vacinaCriada = await this.vacinaService.createVacina(vacinaData);
-      
+
       const response: ApiResponse<Vacina> = {
         success: true,
         data: vacinaCriada,
-        message: 'Vacina criada com sucesso'
+        message: 'Vacina criada com sucesso',
       };
-      
+
       res.status(201).json(response);
     } catch (error) {
       console.error('Erro ao criar vacina:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -72,35 +72,35 @@ export class VacinaController {
       if (isNaN(idNumber)) {
         const response: ApiResponse = {
           success: false,
-          error: 'ID deve ser um número válido'
+          error: 'ID deve ser um número válido',
         };
         res.status(400).json(response);
         return;
       }
 
       const vacina = await this.vacinaService.getById(idNumber);
-      
+
       if (!vacina) {
         const response: ApiResponse = {
           success: false,
-          error: 'Vacina não encontrada'
+          error: 'Vacina não encontrada',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse<Vacina> = {
         success: true,
-        data: vacina
+        data: vacina,
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao buscar vacina:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -114,27 +114,27 @@ export class VacinaController {
       if (isNaN(animalIdNumber)) {
         const response: ApiResponse = {
           success: false,
-          error: 'ID do animal deve ser um número válido'
+          error: 'ID do animal deve ser um número válido',
         };
         res.status(400).json(response);
         return;
       }
 
       const vacinas = await this.vacinaService.getByAnimalId(animalIdNumber);
-      
+
       const response: ApiResponse<Vacina[]> = {
         success: true,
         data: vacinas,
-        count: vacinas.length
+        count: vacinas.length,
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao buscar vacinas do animal:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -143,20 +143,20 @@ export class VacinaController {
   async getAll(_req: Request, res: Response): Promise<void> {
     try {
       const vacinas = await this.vacinaService.getAll();
-      
+
       const response: ApiResponse<Vacina[]> = {
         success: true,
         data: vacinas,
-        count: vacinas.length
+        count: vacinas.length,
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao buscar vacinas:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -168,7 +168,7 @@ export class VacinaController {
       if (!id) {
         const response: ApiResponse = {
           success: false,
-          error: 'ID é obrigatório'
+          error: 'ID é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -179,7 +179,7 @@ export class VacinaController {
       if (isNaN(idNumber)) {
         const response: ApiResponse = {
           success: false,
-          error: 'ID deve ser um número válido'
+          error: 'ID deve ser um número válido',
         };
         res.status(400).json(response);
         return;
@@ -191,31 +191,31 @@ export class VacinaController {
       if (updateData.dataValidade) {
         updateData.dataValidade = new Date(updateData.dataValidade);
       }
-      
+
       const vacina = await this.vacinaService.update(idNumber, updateData);
-      
+
       if (!vacina) {
         const response: ApiResponse = {
           success: false,
-          error: 'Vacina não encontrada'
+          error: 'Vacina não encontrada',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse<Vacina> = {
         success: true,
         data: vacina,
-        message: 'Vacina atualizada com sucesso'
+        message: 'Vacina atualizada com sucesso',
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao atualizar vacina:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -229,35 +229,35 @@ export class VacinaController {
       if (isNaN(idNumber)) {
         const response: ApiResponse = {
           success: false,
-          error: 'ID deve ser um número válido'
+          error: 'ID deve ser um número válido',
         };
         res.status(400).json(response);
         return;
       }
-      
+
       const deleted = await this.vacinaService.delete(idNumber);
-      
+
       if (!deleted) {
         const response: ApiResponse = {
           success: false,
-          error: 'Vacina não encontrada'
+          error: 'Vacina não encontrada',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse = {
         success: true,
-        message: 'Vacina deletada com sucesso'
+        message: 'Vacina deletada com sucesso',
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao deletar vacina:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }

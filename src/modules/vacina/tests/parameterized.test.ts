@@ -8,7 +8,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         fabricante: 'Zoetis',
         dataAplicacao: '2024-01-15',
         dataValidade: '2024-12-31',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -20,7 +20,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: '',
         dataAplicacao: '2024-01-15',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -32,7 +32,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'A',
         dataAplicacao: '2024-01-15',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -44,7 +44,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V10',
         dataAplicacao: 'data-invalida',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -56,7 +56,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V10',
         dataAplicacao: '2030-01-01',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -68,7 +68,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
-        animalId: -1
+        animalId: -1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -80,7 +80,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
-        animalId: 0
+        animalId: 0,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -92,7 +92,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
-        animalId: 'abc'
+        animalId: 'abc',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -104,7 +104,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V1',
         dataAplicacao: '2024-01-15',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -116,7 +116,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
       const data = {
         nome: 'V'.repeat(50),
         dataAplicacao: '2024-01-15',
-        animalId: 1
+        animalId: 1,
       };
 
       const result = VacinaValidator.validateVacinaData(data);

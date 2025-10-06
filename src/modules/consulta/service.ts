@@ -45,13 +45,13 @@ export class ConsultaService {
   async getById(id: number): Promise<Consulta | null> {
     console.log(`Buscando consulta por ID: ${id}`);
     const consulta = await this.consultaRepository.findById(id);
-    
+
     if (consulta) {
       console.log(`Consulta encontrada: ${consulta.id}`);
     } else {
       console.log(`Consulta não encontrada para ID: ${id}`);
     }
-    
+
     return consulta;
   }
 

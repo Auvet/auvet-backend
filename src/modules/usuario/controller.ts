@@ -32,7 +32,7 @@ export class UsuarioController {
       if (!validation.isValid) {
         const response: ApiResponse = {
           success: false,
-          error: validation.errors.join(', ')
+          error: validation.errors.join(', '),
         };
         res.status(400).json(response);
         return;
@@ -45,7 +45,7 @@ export class UsuarioController {
         nome,
         email,
         senha,
-        dataCadastro: new Date()
+        dataCadastro: new Date(),
       };
 
       const usuario = await this.usuarioService.create(usuarioData);
@@ -53,14 +53,14 @@ export class UsuarioController {
       const response: ApiResponse = {
         success: true,
         data: usuario,
-        message: 'Usuário criado com sucesso'
+        message: 'Usuário criado com sucesso',
       };
 
       res.status(201).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -73,7 +73,7 @@ export class UsuarioController {
       if (!cpf || !senha) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF e senha são obrigatórios'
+          error: 'CPF e senha são obrigatórios',
         };
         res.status(400).json(response);
         return;
@@ -87,23 +87,23 @@ export class UsuarioController {
           cpf: usuario.cpf,
           nome: usuario.nome,
           email: usuario.email,
-          dataCadastro: usuario.dataCadastro
+          dataCadastro: usuario.dataCadastro,
         },
-        message: 'Login realizado com sucesso'
+        message: 'Login realizado com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
-      
-      const statusCode = error instanceof Error && 
-        (error.message.includes('não encontrado') || error.message.includes('incorreta')) 
-        ? 401 
+
+      const statusCode = error instanceof Error &&
+        (error.message.includes('não encontrado') || error.message.includes('incorreta'))
+        ? 401
         : 500;
-        
+
       res.status(statusCode).json(response);
     }
   }
@@ -116,14 +116,14 @@ export class UsuarioController {
         success: true,
         data: usuarios,
         count: usuarios.length,
-        message: 'Usuários encontrados com sucesso'
+        message: 'Usuários encontrados com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -136,7 +136,7 @@ export class UsuarioController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -147,7 +147,7 @@ export class UsuarioController {
       if (!usuario) {
         const response: ApiResponse = {
           success: false,
-          error: 'Usuário não encontrado'
+          error: 'Usuário não encontrado',
         };
         res.status(404).json(response);
         return;
@@ -155,14 +155,14 @@ export class UsuarioController {
 
       const response: ApiResponse = {
         success: true,
-        data: usuario
+        data: usuario,
       };
 
       res.status(200).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -176,7 +176,7 @@ export class UsuarioController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -187,20 +187,20 @@ export class UsuarioController {
       const response: ApiResponse = {
         success: true,
         data: usuario,
-        message: 'Usuário atualizado com sucesso'
+        message: 'Usuário atualizado com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
-      
-      const statusCode = error instanceof Error && error.message.includes('não encontrado') 
-        ? 404 
+
+      const statusCode = error instanceof Error && error.message.includes('não encontrado')
+        ? 404
         : 500;
-        
+
       res.status(statusCode).json(response);
     }
   }
@@ -212,7 +212,7 @@ export class UsuarioController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -222,20 +222,20 @@ export class UsuarioController {
 
       const response: ApiResponse = {
         success: true,
-        message: 'Usuário deletado com sucesso'
+        message: 'Usuário deletado com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
-      
-      const statusCode = error instanceof Error && error.message.includes('não encontrado') 
-        ? 404 
+
+      const statusCode = error instanceof Error && error.message.includes('não encontrado')
+        ? 404
         : 500;
-        
+
       res.status(statusCode).json(response);
     }
   }

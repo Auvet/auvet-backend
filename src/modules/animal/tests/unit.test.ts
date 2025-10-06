@@ -23,7 +23,7 @@ describe('AnimalService - Testes Unitários', () => {
   });
 
   describe('createAnimal', () => {
-    it('deve falhar ao criar animal com dados inválidos', async () => {
+    it('deve falhar ao criar animal com dados inválidos', async() => {
       const animalData = {
         nome: '',
         especie: 'Cão',
@@ -38,7 +38,7 @@ describe('AnimalService - Testes Unitários', () => {
         .rejects.toThrow();
     });
 
-    it('deve falhar ao criar animal com sexo inválido', async () => {
+    it('deve falhar ao criar animal com sexo inválido', async() => {
       const animalData = {
         nome: 'Rex',
         especie: 'Cão',
@@ -46,7 +46,7 @@ describe('AnimalService - Testes Unitários', () => {
         sexo: 'X',
         idade: 3,
         peso: 25.5,
-        tutorCpf: '12345678901'
+        tutorCpf: '12345678901',
       };
 
       await expect(animalService.createAnimal(animalData))
@@ -55,37 +55,37 @@ describe('AnimalService - Testes Unitários', () => {
   });
 
   describe('getById', () => {
-    it('deve retornar null para animal inexistente', async () => {
+    it('deve retornar null para animal inexistente', async() => {
       const result = await animalService.getById(999);
       expect(result).toBeNull();
     });
   });
 
   describe('getByTutorCpf', () => {
-    it('deve retornar lista vazia para tutor sem animais', async () => {
+    it('deve retornar lista vazia para tutor sem animais', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.findMany.mockResolvedValue([]);
-      
+
       const result = await animalService.getByTutorCpf('99999999999');
       expect(result).toHaveLength(0);
     });
   });
 
   describe('getAll', () => {
-    it('deve retornar array vazio quando não há animais', async () => {
+    it('deve retornar array vazio quando não há animais', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.findMany.mockResolvedValue([]);
-      
+
       const result = await animalService.getAll();
       expect(result).toHaveLength(0);
     });
   });
 
   describe('update', () => {
-    it('deve retornar null para animal inexistente', async () => {
+    it('deve retornar null para animal inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.findUnique.mockResolvedValue(null);
-      
+
       const updateData = { nome: 'Teste' };
       const result = await animalService.update(999, updateData);
       expect(result).toBeNull();
@@ -93,10 +93,10 @@ describe('AnimalService - Testes Unitários', () => {
   });
 
   describe('delete', () => {
-    it('deve retornar false para animal inexistente', async () => {
+    it('deve retornar false para animal inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.delete.mockRejectedValue(new Error('Animal não encontrado'));
-      
+
       const result = await animalService.delete(999);
       expect(result).toBe(false);
     });

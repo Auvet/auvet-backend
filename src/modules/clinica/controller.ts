@@ -29,7 +29,7 @@ export class ClinicaController {
         telefone: req.body.telefone || null,
         email: req.body.email || null,
         dataCadastro: new Date(),
-        administradorCpf: req.body.administradorCpf
+        administradorCpf: req.body.administradorCpf,
       };
 
       const clinica = await this.clinicaService.createClinica(clinicaData);
@@ -37,16 +37,16 @@ export class ClinicaController {
       const response: ApiResponse = {
         success: true,
         data: clinica,
-        message: 'Clínica criada com sucesso'
+        message: 'Clínica criada com sucesso',
       };
 
       res.status(201).json(response);
     } catch (error) {
       console.error('Erro ao criar clínica:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -61,16 +61,16 @@ export class ClinicaController {
         success: true,
         data: clinicas,
         count: clinicas.length,
-        message: 'Clínicas listadas com sucesso'
+        message: 'Clínicas listadas com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       console.error('Erro ao listar clínicas:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -83,7 +83,7 @@ export class ClinicaController {
       if (!cnpj) {
         const response: ApiResponse = {
           success: false,
-          error: 'CNPJ é obrigatório'
+          error: 'CNPJ é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -94,7 +94,7 @@ export class ClinicaController {
       if (!clinica) {
         const response: ApiResponse = {
           success: false,
-          error: 'Clínica não encontrada'
+          error: 'Clínica não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -103,16 +103,16 @@ export class ClinicaController {
       const response: ApiResponse = {
         success: true,
         data: clinica,
-        message: 'Clínica encontrada com sucesso'
+        message: 'Clínica encontrada com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       console.error('Erro ao buscar clínica:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -125,7 +125,7 @@ export class ClinicaController {
       if (!cnpj) {
         const response: ApiResponse = {
           success: false,
-          error: 'CNPJ é obrigatório'
+          error: 'CNPJ é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -135,7 +135,7 @@ export class ClinicaController {
         endereco: req.body.endereco || null,
         telefone: req.body.telefone || null,
         email: req.body.email || null,
-        administradorCpf: req.body.administradorCpf
+        administradorCpf: req.body.administradorCpf,
       };
 
       const updatedClinica = await this.clinicaService.update(cnpj, updateData);
@@ -143,7 +143,7 @@ export class ClinicaController {
       if (!updatedClinica) {
         const response: ApiResponse = {
           success: false,
-          error: 'Clínica não encontrada'
+          error: 'Clínica não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -152,16 +152,16 @@ export class ClinicaController {
       const response: ApiResponse = {
         success: true,
         data: updatedClinica,
-        message: 'Clínica atualizada com sucesso'
+        message: 'Clínica atualizada com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       console.error('Erro ao atualizar clínica:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -174,7 +174,7 @@ export class ClinicaController {
       if (!cnpj) {
         const response: ApiResponse = {
           success: false,
-          error: 'CNPJ é obrigatório'
+          error: 'CNPJ é obrigatório',
         };
         res.status(400).json(response);
         return;
@@ -185,7 +185,7 @@ export class ClinicaController {
       if (!deleted) {
         const response: ApiResponse = {
           success: false,
-          error: 'Clínica não encontrada'
+          error: 'Clínica não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -193,16 +193,16 @@ export class ClinicaController {
 
       const response: ApiResponse = {
         success: true,
-        message: 'Clínica deletada com sucesso'
+        message: 'Clínica deletada com sucesso',
       };
 
       res.status(200).json(response);
     } catch (error) {
       console.error('Erro ao deletar clínica:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);

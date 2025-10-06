@@ -23,14 +23,14 @@ export class FuncionarioValidator {
       sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
     }
     let digit1 = 11 - (sum % 11);
-    if (digit1 >= 10) digit1 = 0;
+    if (digit1 >= 10) {digit1 = 0;}
 
     sum = 0;
     for (let i = 0; i < 10; i++) {
       sum += parseInt(cleanCPF.charAt(i)) * (11 - i);
     }
     let digit2 = 11 - (sum % 11);
-    if (digit2 >= 10) digit2 = 0;
+    if (digit2 >= 10) {digit2 = 0;}
 
     if (parseInt(cleanCPF.charAt(9)) !== digit1 || parseInt(cleanCPF.charAt(10)) !== digit2) {
       return { isValid: false, error: 'CPF inválido (dígitos verificadores incorretos)' };
@@ -45,7 +45,7 @@ export class FuncionarioValidator {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     if (!emailRegex.test(email)) {
       return { isValid: false, error: 'Email inválido' };
     }
@@ -224,14 +224,14 @@ export class FuncionarioValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
 
 export class ValidatorUtils {
   static formatCPF(cpf: string): string {
-    if (!cpf) return '';
+    if (!cpf) {return '';}
     const cleanCPF = cpf.replace(/[^\d]/g, '');
     return cleanCPF.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
@@ -246,29 +246,29 @@ export class ValidatorUtils {
   }
 
   static maskCPF(cpf: string): string {
-    if (!cpf) return '';
+    if (!cpf) {return '';}
     const cleanCPF = cpf.replace(/[^\d]/g, '');
-    if (cleanCPF.length !== 11) return cpf;
+    if (cleanCPF.length !== 11) {return cpf;}
     return `***.***.**${cleanCPF.slice(-3)}-${cleanCPF.slice(-2)}`;
   }
 
   static generateRandomCPF(): string {
     const numbers = Array.from({ length: 9 }, () => Math.floor(Math.random() * 10));
-    
+
     let sum = 0;
     for (let i = 0; i < 9; i++) {
       sum += (numbers[i] || 0) * (10 - i);
     }
-    let digit1 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
+    const digit1 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
     numbers.push(digit1);
-    
+
     sum = 0;
     for (let i = 0; i < 10; i++) {
       sum += (numbers[i] || 0) * (11 - i);
     }
-    let digit2 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
+    const digit2 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
     numbers.push(digit2);
-    
+
     return numbers.join('');
   }
 }
@@ -298,14 +298,14 @@ export class UsuarioValidator {
       sum += parseInt(cleanCPF.charAt(i)) * (10 - i);
     }
     let digit1 = 11 - (sum % 11);
-    if (digit1 >= 10) digit1 = 0;
+    if (digit1 >= 10) {digit1 = 0;}
 
     sum = 0;
     for (let i = 0; i < 10; i++) {
       sum += parseInt(cleanCPF.charAt(i)) * (11 - i);
     }
     let digit2 = 11 - (sum % 11);
-    if (digit2 >= 10) digit2 = 0;
+    if (digit2 >= 10) {digit2 = 0;}
 
     if (parseInt(cleanCPF.charAt(9)) !== digit1 || parseInt(cleanCPF.charAt(10)) !== digit2) {
       return { isValid: false, error: 'CPF inválido (dígitos verificadores incorretos)' };
@@ -342,7 +342,7 @@ export class UsuarioValidator {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     if (!emailRegex.test(email)) {
       return { isValid: false, error: 'Email inválido' };
     }
@@ -405,19 +405,19 @@ export class UsuarioValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
   static generateRandomCPF(): string {
     const numbers = Array.from({ length: 11 }, () => Math.floor(Math.random() * 10));
-    
+
     while (numbers.every(num => num === numbers[0])) {
       for (let i = 0; i < 11; i++) {
         numbers[i] = Math.floor(Math.random() * 10);
       }
     }
-    
+
     return numbers.join('');
   }
 }
@@ -451,7 +451,7 @@ export class TutorValidator {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     if (!emailRegex.test(email)) {
       return { isValid: false, error: 'Email inválido' };
     }
@@ -513,7 +513,7 @@ export class TutorValidator {
 
   static validateTelefone(telefone: string): { isValid: boolean; error?: string } {
     if (!telefone || typeof telefone !== 'string') {
-      return { isValid: true }; 
+      return { isValid: true };
     }
 
     const cleanTelefone = telefone.replace(/[^\d]/g, '');
@@ -527,7 +527,7 @@ export class TutorValidator {
 
   static validateEndereco(endereco: string): { isValid: boolean; error?: string } {
     if (!endereco || typeof endereco !== 'string') {
-      return { isValid: true }; 
+      return { isValid: true };
     }
 
     const trimmedEndereco = endereco.trim();
@@ -582,7 +582,7 @@ export class TutorValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
@@ -604,7 +604,7 @@ export class AnimalValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
@@ -627,23 +627,23 @@ export class ClinicaValidator {
 
     let sum = 0;
     let weight = 5;
-    
+
     for (let i = 0; i < 12; i++) {
       sum += parseInt(cleanCNPJ.charAt(i)) * weight;
       weight = weight === 2 ? 9 : weight - 1;
     }
-    
+
     let digit1 = sum % 11;
     digit1 = digit1 < 2 ? 0 : 11 - digit1;
 
     sum = 0;
     weight = 6;
-    
+
     for (let i = 0; i < 13; i++) {
       sum += parseInt(cleanCNPJ.charAt(i)) * weight;
       weight = weight === 2 ? 9 : weight - 1;
     }
-    
+
     let digit2 = sum % 11;
     digit2 = digit2 < 2 ? 0 : 11 - digit2;
 
@@ -675,7 +675,7 @@ export class ClinicaValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
@@ -709,7 +709,7 @@ export class ConsultaValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }
@@ -739,7 +739,7 @@ export class VacinaValidator {
 
     return {
       isValid: errors.length === 0,
-      errors
+      errors,
     };
   }
 }

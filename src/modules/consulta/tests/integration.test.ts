@@ -27,25 +27,25 @@ describe('ConsultaController - Testes de Integração', () => {
     app = express();
     app.use(express.json());
     consultaController = new ConsultaController();
-    
+
     app.post('/consultas', consultaController.create.bind(consultaController));
     app.get('/consultas', consultaController.getAll.bind(consultaController));
     app.get('/consultas/:id', consultaController.getById.bind(consultaController));
     app.put('/consultas/:id', consultaController.update.bind(consultaController));
     app.delete('/consultas/:id', consultaController.delete.bind(consultaController));
-    
+
     const prisma = require('../../../config/database');
     prisma.consulta.findMany.mockResolvedValue([]);
     prisma.consulta.findUnique.mockResolvedValue(null);
     prisma.consulta.create.mockResolvedValue({});
     prisma.consulta.update.mockResolvedValue(null);
     prisma.consulta.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /consultas', () => {
-    it('deve falhar ao criar consulta com dados inválidos', async () => {
+    it('deve falhar ao criar consulta com dados inválidos', async() => {
       const consultaData = {
         data: '2025-12-25',
         hora: '14:30:00',
@@ -53,7 +53,7 @@ describe('ConsultaController - Testes de Integração', () => {
         status: 'agendada',
         animalId: -1,
         funcionarioCpf: '123',
-        observacoes: null
+        observacoes: null,
       };
 
       const response = await request(app)
@@ -64,7 +64,7 @@ describe('ConsultaController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar consulta com status inválido', async () => {
+    it('deve falhar ao criar consulta com status inválido', async() => {
       const consultaData = {
         data: '2025-12-25',
         hora: '14:30:00',
@@ -72,7 +72,7 @@ describe('ConsultaController - Testes de Integração', () => {
         status: 'status_invalido',
         animalId: 1,
         funcionarioCpf: '12345678901',
-        observacoes: null
+        observacoes: null,
       };
 
       const response = await request(app)
@@ -85,7 +85,7 @@ describe('ConsultaController - Testes de Integração', () => {
   });
 
   describe('GET /consultas', () => {
-    it('deve retornar lista vazia quando não há consultas', async () => {
+    it('deve retornar lista vazia quando não há consultas', async() => {
       const response = await request(app)
         .get('/consultas');
 
@@ -97,7 +97,7 @@ describe('ConsultaController - Testes de Integração', () => {
   });
 
   describe('GET /consultas/:id', () => {
-    it('deve retornar erro para consulta inexistente', async () => {
+    it('deve retornar erro para consulta inexistente', async() => {
       const response = await request(app)
         .get('/consultas/999');
 
@@ -107,9 +107,9 @@ describe('ConsultaController - Testes de Integração', () => {
   });
 
   describe('PUT /consultas/:id', () => {
-    it('deve retornar erro para consulta inexistente', async () => {
+    it('deve retornar erro para consulta inexistente', async() => {
       const updateData = { status: 'realizada' };
-      
+
       const response = await request(app)
         .put('/consultas/999')
         .send(updateData);
@@ -120,10 +120,10 @@ describe('ConsultaController - Testes de Integração', () => {
   });
 
   describe('DELETE /consultas/:id', () => {
-    it('deve retornar erro para consulta inexistente', async () => {
+    it('deve retornar erro para consulta inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.consulta.delete.mockRejectedValue(new Error('Consulta não encontrada'));
-      
+
       const response = await request(app)
         .delete('/consultas/999');
 

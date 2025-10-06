@@ -10,7 +10,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
         sexo: 'M',
         idade: 3,
         peso: 25.5,
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -21,7 +21,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar nome vazio', () => {
       const data = {
         nome: '',
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -32,7 +32,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar nome muito curto', () => {
       const data = {
         nome: 'A',
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -43,7 +43,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar nome muito longo', () => {
       const data = {
         nome: 'A'.repeat(51),
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -54,7 +54,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar CPF inválido - muito curto', () => {
       const data = {
         nome: 'Rex',
-        tutorCpf: '123'
+        tutorCpf: '123',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -65,7 +65,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar CPF inválido - muito longo', () => {
       const data = {
         nome: 'Rex',
-        tutorCpf: '123456789012'
+        tutorCpf: '123456789012',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -76,7 +76,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar CPF inválido - com letras', () => {
       const data = {
         nome: 'Rex',
-        tutorCpf: '1234567890a'
+        tutorCpf: '1234567890a',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -87,7 +87,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve rejeitar CPF inválido - dígitos verificadores incorretos', () => {
       const data = {
         nome: 'Rex',
-        tutorCpf: '12345678900'
+        tutorCpf: '12345678900',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -98,7 +98,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve aceitar nome com 2 caracteres', () => {
       const data = {
         nome: 'Ab',
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);
@@ -109,7 +109,7 @@ describe('AnimalValidator - Testes Parametrizados', () => {
     it('deve aceitar nome com 50 caracteres', () => {
       const data = {
         nome: 'A'.repeat(50),
-        tutorCpf: '11144477735'
+        tutorCpf: '11144477735',
       };
 
       const result = AnimalValidator.validateAnimalData(data);

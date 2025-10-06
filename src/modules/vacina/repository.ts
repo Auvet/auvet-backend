@@ -6,7 +6,7 @@ export class VacinaRepository {
 
   async create(data: Omit<Vacina, 'id'>): Promise<Vacina> {
     const vacina = await this.prisma.vacina.create({
-      data
+      data,
     });
 
     return vacina;
@@ -14,7 +14,7 @@ export class VacinaRepository {
 
   async findById(id: number): Promise<Vacina | null> {
     const vacina = await this.prisma.vacina.findUnique({
-      where: { id }
+      where: { id },
     });
 
     return vacina;
@@ -22,7 +22,7 @@ export class VacinaRepository {
 
   async findByAnimalId(animalId: number): Promise<Vacina[]> {
     const vacinas = await this.prisma.vacina.findMany({
-      where: { animalId }
+      where: { animalId },
     });
 
     return vacinas;
@@ -37,11 +37,12 @@ export class VacinaRepository {
     try {
       const vacina = await this.prisma.vacina.update({
         where: { id },
-        data
+        data,
       });
 
       return vacina;
     } catch (error) {
+      console.error('Erro ao atualizar vacina:', error);
       return null;
     }
   }
@@ -49,11 +50,12 @@ export class VacinaRepository {
   async delete(id: number): Promise<boolean> {
     try {
       await this.prisma.vacina.delete({
-        where: { id }
+        where: { id },
       });
 
       return true;
     } catch (error) {
+      console.error('Erro ao deletar vacina:', error);
       return false;
     }
   }

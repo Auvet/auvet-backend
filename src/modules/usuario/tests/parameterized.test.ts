@@ -7,7 +7,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -20,7 +20,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -33,7 +33,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '123',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -46,7 +46,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '123456789012',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -59,7 +59,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '12345678900',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -72,7 +72,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: '',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -85,7 +85,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'João Silva',
         email: '',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -98,7 +98,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'João Silva',
         email: 'email-invalido',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -111,7 +111,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: ''
+        senha: '',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -124,7 +124,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'João Silva',
         email: 'joao@test.com',
-        senha: '123'
+        senha: '123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -137,7 +137,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'Jo',
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);
@@ -150,7 +150,7 @@ describe('UsuarioValidator - Testes Parametrizados', () => {
         cpf: '11144477735',
         nome: 'J'.repeat(100),
         email: 'joao@test.com',
-        senha: 'senha123'
+        senha: 'senha123',
       };
 
       const result = UsuarioValidator.validateUsuarioData(data);

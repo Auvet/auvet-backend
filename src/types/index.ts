@@ -68,3 +68,16 @@ export interface ApiResponse<T = any> {
   message?: string;
   count?: number;
 }
+
+import { Request } from 'express';
+
+export interface AuthenticatedUser {
+  cpf: string;
+  nome: string;
+  email: string;
+  dataCadastro: Date;
+}
+
+export interface AuthenticatedRequest extends Request {
+  user?: AuthenticatedUser;
+}

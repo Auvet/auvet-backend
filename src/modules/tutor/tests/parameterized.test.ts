@@ -9,7 +9,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -24,7 +24,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -39,7 +39,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -54,7 +54,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -69,7 +69,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -84,7 +84,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'email-invalido',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -99,7 +99,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: '123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -114,7 +114,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -129,7 +129,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);
@@ -144,7 +144,7 @@ describe('TutorValidator - Testes Parametrizados', () => {
         email: 'joao@email.com',
         senha: 'senha123',
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       const result = TutorValidator.validateTutorData(data);

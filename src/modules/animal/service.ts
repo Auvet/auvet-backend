@@ -11,7 +11,7 @@ export class AnimalService {
 
   async createAnimal(animalData: Omit<Animal, 'id'>): Promise<Animal> {
     console.log(`Iniciando criação de animal: ${animalData.nome}`);
-    
+
     const validation = AnimalValidator.validateAnimalData(animalData);
     if (!validation.isValid) {
       throw new Error(validation.errors.join(', '));
@@ -43,69 +43,69 @@ export class AnimalService {
 
     const animal = await this.animalRepository.create(animalData);
     console.log(`Animal criado com sucesso: ${animal.id} - ${animal.nome}`);
-    
+
     return animal;
   }
 
   async getById(id: number): Promise<Animal | null> {
     console.log(`Buscando animal por ID: ${id}`);
-    
+
     const animal = await this.animalRepository.findById(id);
-    
+
     if (animal) {
       console.log(`Animal encontrado: ${animal.id} - ${animal.nome}`);
     } else {
       console.log(`Animal não encontrado para ID: ${id}`);
     }
-    
+
     return animal;
   }
 
   async getByTutorCpf(tutorCpf: string): Promise<Animal[]> {
     console.log(`Buscando animais do tutor: ${tutorCpf}`);
-    
+
     const animais = await this.animalRepository.findByTutorCpf(tutorCpf);
-    
+
     console.log(`Encontrados ${animais.length} animais para o tutor ${tutorCpf}`);
-    
+
     return animais;
   }
 
   async getAll(): Promise<Animal[]> {
     console.log('Buscando todos os animais');
-    
+
     const animais = await this.animalRepository.findAll();
-    
+
     console.log(`Encontrados ${animais.length} animais`);
-    
+
     return animais;
   }
 
   async update(id: number, updateData: Partial<Animal>): Promise<Animal | null> {
     console.log(`Atualizando animal ID: ${id}`);
-    
+
     const animal = await this.animalRepository.update(id, updateData);
-    
+
     if (animal) {
       console.log(`Animal atualizado com sucesso: ${animal.id}`);
     } else {
       console.log(`Falha ao atualizar animal ID: ${id}`);
     }
-    
+
     return animal;
   }
 
   async delete(id: number): Promise<boolean> {
     console.log(`Deletando animal ID: ${id}`);
-    
+
     const deleted = await this.animalRepository.delete(id);
-    
+
     if (deleted) {
       console.log(`Animal deletado com sucesso: ${id}`);
     } else {
       console.log(`Falha ao deletar animal ID: ${id}`);
     }
-    
+
     return deleted;
   }
 }

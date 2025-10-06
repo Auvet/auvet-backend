@@ -6,34 +6,34 @@ export class AnimalRepository {
 
   async create(data: Omit<Animal, 'id'>): Promise<Animal> {
     const animal = await this.prisma.animal.create({
-      data
+      data,
     });
 
     return {
       ...animal,
-      peso: animal.peso ? Number(animal.peso) : null
+      peso: animal.peso ? Number(animal.peso) : null,
     };
   }
 
   async findById(id: number): Promise<Animal | null> {
     const animal = await this.prisma.animal.findUnique({
-      where: { id }
+      where: { id },
     });
 
     return animal ? {
       ...animal,
-      peso: animal.peso ? Number(animal.peso) : null
+      peso: animal.peso ? Number(animal.peso) : null,
     } : null;
   }
 
   async findByTutorCpf(tutorCpf: string): Promise<Animal[]> {
     const animais = await this.prisma.animal.findMany({
-      where: { tutorCpf }
+      where: { tutorCpf },
     });
 
     return animais.map((animal: any) => ({
       ...animal,
-      peso: animal.peso ? Number(animal.peso) : null
+      peso: animal.peso ? Number(animal.peso) : null,
     }));
   }
 
@@ -41,7 +41,7 @@ export class AnimalRepository {
     const animais = await this.prisma.animal.findMany();
     return animais.map((animal: any) => ({
       ...animal,
-      peso: animal.peso ? Number(animal.peso) : null
+      peso: animal.peso ? Number(animal.peso) : null,
     }));
   }
 
@@ -49,14 +49,15 @@ export class AnimalRepository {
     try {
       const animal = await this.prisma.animal.update({
         where: { id },
-        data
+        data,
       });
 
       return {
         ...animal,
-        peso: animal.peso ? Number(animal.peso) : null
+        peso: animal.peso ? Number(animal.peso) : null,
       };
     } catch (error) {
+      console.error('Erro ao atualizar animal:', error);
       return null;
     }
   }
@@ -64,11 +65,12 @@ export class AnimalRepository {
   async delete(id: number): Promise<boolean> {
     try {
       await this.prisma.animal.delete({
-        where: { id }
+        where: { id },
       });
 
       return true;
     } catch (error) {
+      console.error('Erro ao deletar animal:', error);
       return false;
     }
   }

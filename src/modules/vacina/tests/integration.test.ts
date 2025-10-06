@@ -24,26 +24,26 @@ describe('VacinaController - Testes de Integração', () => {
     app = express();
     app.use(express.json());
     vacinaController = new VacinaController();
-    
+
     app.post('/vacinas', vacinaController.create.bind(vacinaController));
     app.get('/vacinas', vacinaController.getAll.bind(vacinaController));
     app.get('/vacinas/:id', vacinaController.getById.bind(vacinaController));
     app.get('/vacinas/animal/:animalId', vacinaController.getByAnimalId.bind(vacinaController));
     app.put('/vacinas/:id', vacinaController.update.bind(vacinaController));
     app.delete('/vacinas/:id', vacinaController.delete.bind(vacinaController));
-    
+
     const prisma = require('../../../config/database');
     prisma.vacina.findMany.mockResolvedValue([]);
     prisma.vacina.findUnique.mockResolvedValue(null);
     prisma.vacina.create.mockResolvedValue({});
     prisma.vacina.update.mockResolvedValue(null);
     prisma.vacina.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /vacinas', () => {
-    it('deve falhar ao criar vacina com dados inválidos', async () => {
+    it('deve falhar ao criar vacina com dados inválidos', async() => {
       const vacinaData = {
         nome: '',
         fabricante: 'Zoetis',
@@ -60,13 +60,13 @@ describe('VacinaController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar vacina com data futura', async () => {
+    it('deve falhar ao criar vacina com data futura', async() => {
       const vacinaData = {
         nome: 'V10',
         fabricante: 'Zoetis',
         dataAplicacao: '2030-01-01',
         dataValidade: '2030-12-31',
-        animalId: 1
+        animalId: 1,
       };
 
       const response = await request(app)
@@ -79,7 +79,7 @@ describe('VacinaController - Testes de Integração', () => {
   });
 
   describe('GET /vacinas', () => {
-    it('deve retornar lista vazia quando não há vacinas', async () => {
+    it('deve retornar lista vazia quando não há vacinas', async() => {
       const response = await request(app)
         .get('/vacinas');
 
@@ -91,7 +91,7 @@ describe('VacinaController - Testes de Integração', () => {
   });
 
   describe('GET /vacinas/:id', () => {
-    it('deve retornar erro para vacina inexistente', async () => {
+    it('deve retornar erro para vacina inexistente', async() => {
       const response = await request(app)
         .get('/vacinas/999');
 
@@ -101,7 +101,7 @@ describe('VacinaController - Testes de Integração', () => {
   });
 
   describe('GET /vacinas/animal/:animalId', () => {
-    it('deve retornar lista vazia para animal sem vacinas', async () => {
+    it('deve retornar lista vazia para animal sem vacinas', async() => {
       const response = await request(app)
         .get('/vacinas/animal/999');
 
@@ -113,12 +113,12 @@ describe('VacinaController - Testes de Integração', () => {
   });
 
   describe('PUT /vacinas/:id', () => {
-    it('deve retornar erro para vacina inexistente', async () => {
+    it('deve retornar erro para vacina inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.vacina.findUnique.mockResolvedValue(null);
-      
+
       const updateData = { nome: 'V10 Atualizada' };
-      
+
       const response = await request(app)
         .put('/vacinas/999')
         .send(updateData);
@@ -129,10 +129,10 @@ describe('VacinaController - Testes de Integração', () => {
   });
 
   describe('DELETE /vacinas/:id', () => {
-    it('deve retornar erro para vacina inexistente', async () => {
+    it('deve retornar erro para vacina inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.vacina.delete.mockRejectedValue(new Error('Vacina não encontrada'));
-      
+
       const response = await request(app)
         .delete('/vacinas/999');
 

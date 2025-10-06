@@ -24,25 +24,25 @@ describe('FuncionarioController - Testes de Integração', () => {
     app = express();
     app.use(express.json());
     funcionarioController = new FuncionarioController();
-    
+
     app.post('/funcionarios', funcionarioController.create.bind(funcionarioController));
     app.get('/funcionarios', funcionarioController.getAll.bind(funcionarioController));
     app.get('/funcionarios/:cpf', funcionarioController.getByCpf.bind(funcionarioController));
     app.put('/funcionarios/:cpf', funcionarioController.update.bind(funcionarioController));
     app.delete('/funcionarios/:cpf', funcionarioController.delete.bind(funcionarioController));
-    
+
     const prisma = require('../../../config/database');
     prisma.funcionario.findMany.mockResolvedValue([]);
     prisma.funcionario.findUnique.mockResolvedValue(null);
     prisma.funcionario.create.mockResolvedValue({});
     prisma.funcionario.update.mockResolvedValue(null);
     prisma.funcionario.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /funcionarios', () => {
-    it('deve falhar ao criar funcionário com dados inválidos', async () => {
+    it('deve falhar ao criar funcionário com dados inválidos', async() => {
       const funcionarioData = {
         cpf: '',
         nome: 'João Silva',
@@ -51,7 +51,7 @@ describe('FuncionarioController - Testes de Integração', () => {
         cargo: 'Veterinário',
         registroProfissional: 'CRMV-12345',
         status: 'ativo',
-        nivelAcesso: 2
+        nivelAcesso: 2,
       };
 
       const response = await request(app)
@@ -62,7 +62,7 @@ describe('FuncionarioController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar funcionário com cargo inválido', async () => {
+    it('deve falhar ao criar funcionário com cargo inválido', async() => {
       const funcionarioData = {
         cpf: '12345678901',
         nome: 'João Silva',
@@ -71,7 +71,7 @@ describe('FuncionarioController - Testes de Integração', () => {
         cargo: '',
         registroProfissional: 'CRMV-12345',
         status: 'ativo',
-        nivelAcesso: 2
+        nivelAcesso: 2,
       };
 
       const response = await request(app)
@@ -84,7 +84,7 @@ describe('FuncionarioController - Testes de Integração', () => {
   });
 
   describe('GET /funcionarios', () => {
-    it('deve retornar lista vazia quando não há funcionários', async () => {
+    it('deve retornar lista vazia quando não há funcionários', async() => {
       const response = await request(app)
         .get('/funcionarios');
 
@@ -96,7 +96,7 @@ describe('FuncionarioController - Testes de Integração', () => {
   });
 
   describe('GET /funcionarios/:cpf', () => {
-    it('deve retornar erro para funcionário inexistente', async () => {
+    it('deve retornar erro para funcionário inexistente', async() => {
       const response = await request(app)
         .get('/funcionarios/99999999999');
 
@@ -106,9 +106,9 @@ describe('FuncionarioController - Testes de Integração', () => {
   });
 
   describe('PUT /funcionarios/:cpf', () => {
-    it('deve retornar erro para funcionário inexistente', async () => {
+    it('deve retornar erro para funcionário inexistente', async() => {
       const updateData = { cargo: 'Veterinário Sênior' };
-      
+
       const response = await request(app)
         .put('/funcionarios/99999999999')
         .send(updateData);
@@ -119,10 +119,10 @@ describe('FuncionarioController - Testes de Integração', () => {
   });
 
   describe('DELETE /funcionarios/:cpf', () => {
-    it('deve retornar erro para funcionário inexistente', async () => {
+    it('deve retornar erro para funcionário inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.funcionario.delete.mockRejectedValue(new Error('Funcionário não encontrado'));
-      
+
       const response = await request(app)
         .delete('/funcionarios/99999999999');
 

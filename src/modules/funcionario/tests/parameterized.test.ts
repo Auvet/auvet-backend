@@ -11,7 +11,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         cargo: 'Veterinário',
         registroProfissional: 'CRMV-12345',
         status: 'ativo',
-        nivelAcesso: 2
+        nivelAcesso: 2,
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -26,7 +26,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -41,7 +41,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -56,7 +56,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -71,7 +71,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -86,7 +86,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'email-invalido',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -101,7 +101,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: '123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -116,7 +116,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: '',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -131,7 +131,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'status_invalido'
+        status: 'status_invalido',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -146,7 +146,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'ativo'
+        status: 'ativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);
@@ -161,7 +161,7 @@ describe('FuncionarioValidator - Testes Parametrizados', () => {
         email: 'joao@clinica.com',
         senha: 'senha123',
         cargo: 'Veterinário',
-        status: 'inativo'
+        status: 'inativo',
       };
 
       const result = FuncionarioValidator.validateFuncionarioData(data);

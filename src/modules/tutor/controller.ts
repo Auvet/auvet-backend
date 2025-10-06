@@ -29,7 +29,7 @@ export class TutorController {
       if (!validation.isValid) {
         const response: ApiResponse = {
           success: false,
-          error: validation.errors.join(', ')
+          error: validation.errors.join(', '),
         };
         res.status(400).json(response);
         return;
@@ -40,29 +40,29 @@ export class TutorController {
         nome,
         email,
         senha,
-        dataCadastro: new Date()
+        dataCadastro: new Date(),
       };
 
       const tutorData: Omit<Tutor, 'cpf'> = {
         telefone: telefone || null,
-        endereco: endereco || null
+        endereco: endereco || null,
       };
 
       const tutorCriado = await this.tutorService.createTutor(usuarioData, tutorData);
-      
+
       const response: ApiResponse<Tutor> = {
         success: true,
         data: tutorCriado,
-        message: 'Tutor criado com sucesso'
+        message: 'Tutor criado com sucesso',
       };
-      
+
       res.status(201).json(response);
     } catch (error) {
       console.error('Erro ao criar tutor:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -75,35 +75,35 @@ export class TutorController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
       }
 
       const tutor = await this.tutorService.getByCpf(cpf);
-      
+
       if (!tutor) {
         const response: ApiResponse = {
           success: false,
-          error: 'Tutor não encontrado'
+          error: 'Tutor não encontrado',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse<Tutor> = {
         success: true,
-        data: tutor
+        data: tutor,
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao buscar tutor:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -112,20 +112,20 @@ export class TutorController {
   async getAll(_req: Request, res: Response): Promise<void> {
     try {
       const tutores = await this.tutorService.getAll();
-      
+
       const response: ApiResponse<Tutor[]> = {
         success: true,
         data: tutores,
-        count: tutores.length
+        count: tutores.length,
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao buscar tutores:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -139,36 +139,36 @@ export class TutorController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
       }
-      
+
       const tutor = await this.tutorService.update(cpf, updateData);
-      
+
       if (!tutor) {
         const response: ApiResponse = {
           success: false,
-          error: 'Tutor não encontrado'
+          error: 'Tutor não encontrado',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse<Tutor> = {
         success: true,
         data: tutor,
-        message: 'Tutor atualizado com sucesso'
+        message: 'Tutor atualizado com sucesso',
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao atualizar tutor:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }
@@ -181,35 +181,35 @@ export class TutorController {
       if (!cpf) {
         const response: ApiResponse = {
           success: false,
-          error: 'CPF é obrigatório'
+          error: 'CPF é obrigatório',
         };
         res.status(400).json(response);
         return;
       }
-      
+
       const deleted = await this.tutorService.delete(cpf);
-      
+
       if (!deleted) {
         const response: ApiResponse = {
           success: false,
-          error: 'Tutor não encontrado'
+          error: 'Tutor não encontrado',
         };
         res.status(404).json(response);
         return;
       }
-      
+
       const response: ApiResponse = {
         success: true,
-        message: 'Tutor deletado com sucesso'
+        message: 'Tutor deletado com sucesso',
       };
-      
+
       res.json(response);
     } catch (error) {
       console.error('Erro ao deletar tutor:', error);
-      
+
       const response: ApiResponse = {
         success: false,
-        error: 'Erro interno do servidor'
+        error: 'Erro interno do servidor',
       };
       res.status(500).json(response);
     }

@@ -6,6 +6,7 @@ import { VacinaController } from '../modules/vacina/controller';
 import { AnimalController } from '../modules/animal/controller';
 import { ClinicaController } from '../modules/clinica/controller';
 import { ConsultaController } from '../modules/consulta/controller';
+import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
 
@@ -16,6 +17,8 @@ const vacinaController = new VacinaController();
 const animalController = new AnimalController();
 const clinicaController = new ClinicaController();
 const consultaController = new ConsultaController();
+
+router.use(authenticateToken);
 
 router.use('/funcionarios', funcionarioController.router);
 router.use('/usuarios', usuarioController.router);

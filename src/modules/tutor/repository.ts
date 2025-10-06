@@ -6,7 +6,7 @@ export class TutorRepository {
 
   async create(data: Tutor): Promise<Tutor> {
     const tutor = await this.prisma.tutor.create({
-      data
+      data,
     });
 
     return tutor;
@@ -14,7 +14,7 @@ export class TutorRepository {
 
   async findByCpf(cpf: string): Promise<Tutor | null> {
     const tutor = await this.prisma.tutor.findUnique({
-      where: { cpf }
+      where: { cpf },
     });
 
     return tutor;
@@ -29,11 +29,12 @@ export class TutorRepository {
     try {
       const tutor = await this.prisma.tutor.update({
         where: { cpf },
-        data
+        data,
       });
 
       return tutor;
     } catch (error) {
+      console.error('Erro ao atualizar tutor:', error);
       return null;
     }
   }
@@ -41,11 +42,12 @@ export class TutorRepository {
   async delete(cpf: string): Promise<boolean> {
     try {
       await this.prisma.tutor.delete({
-        where: { cpf }
+        where: { cpf },
       });
 
       return true;
     } catch (error) {
+      console.error('Erro ao deletar tutor:', error);
       return false;
     }
   }

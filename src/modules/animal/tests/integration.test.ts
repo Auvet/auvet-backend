@@ -23,26 +23,26 @@ describe('AnimalController - Testes de Integração', () => {
     app = express();
     app.use(express.json());
     animalController = new AnimalController();
-    
+
     app.post('/animais', animalController.create.bind(animalController));
     app.get('/animais', animalController.getAll.bind(animalController));
     app.get('/animais/:id', animalController.getById.bind(animalController));
     app.get('/animais/tutor/:tutorCpf', animalController.getByTutorCpf.bind(animalController));
     app.put('/animais/:id', animalController.update.bind(animalController));
     app.delete('/animais/:id', animalController.delete.bind(animalController));
-    
+
     const prisma = require('../../../config/database');
     prisma.animal.findMany.mockResolvedValue([]);
     prisma.animal.findUnique.mockResolvedValue(null);
     prisma.animal.create.mockResolvedValue({});
     prisma.animal.update.mockResolvedValue(null);
     prisma.animal.delete.mockResolvedValue({});
-    
+
     jest.clearAllMocks();
   });
 
   describe('POST /animais', () => {
-    it('deve falhar ao criar animal com dados inválidos', async () => {
+    it('deve falhar ao criar animal com dados inválidos', async() => {
       const animalData = {
         nome: '',
         especie: 'Cão',
@@ -61,7 +61,7 @@ describe('AnimalController - Testes de Integração', () => {
       expect(response.body.success).toBe(false);
     });
 
-    it('deve falhar ao criar animal com sexo inválido', async () => {
+    it('deve falhar ao criar animal com sexo inválido', async() => {
       const animalData = {
         nome: 'Rex',
         especie: 'Cão',
@@ -69,7 +69,7 @@ describe('AnimalController - Testes de Integração', () => {
         sexo: 'X',
         idade: 3,
         peso: 25.5,
-        tutorCpf: '12345678901'
+        tutorCpf: '12345678901',
       };
 
       const response = await request(app)
@@ -82,7 +82,7 @@ describe('AnimalController - Testes de Integração', () => {
   });
 
   describe('GET /animais', () => {
-    it('deve retornar lista vazia quando não há animais', async () => {
+    it('deve retornar lista vazia quando não há animais', async() => {
       const response = await request(app)
         .get('/animais');
 
@@ -94,7 +94,7 @@ describe('AnimalController - Testes de Integração', () => {
   });
 
   describe('GET /animais/:id', () => {
-    it('deve retornar erro para animal inexistente', async () => {
+    it('deve retornar erro para animal inexistente', async() => {
       const response = await request(app)
         .get('/animais/999');
 
@@ -104,7 +104,7 @@ describe('AnimalController - Testes de Integração', () => {
   });
 
   describe('GET /animais/tutor/:tutorCpf', () => {
-    it('deve retornar lista vazia para tutor sem animais', async () => {
+    it('deve retornar lista vazia para tutor sem animais', async() => {
       const response = await request(app)
         .get('/animais/tutor/99999999999');
 
@@ -116,12 +116,12 @@ describe('AnimalController - Testes de Integração', () => {
   });
 
   describe('PUT /animais/:id', () => {
-    it('deve retornar erro para animal inexistente', async () => {
+    it('deve retornar erro para animal inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.findUnique.mockResolvedValue(null);
-      
+
       const updateData = { nome: 'Teste' };
-      
+
       const response = await request(app)
         .put('/animais/999')
         .send(updateData);
@@ -132,10 +132,10 @@ describe('AnimalController - Testes de Integração', () => {
   });
 
   describe('DELETE /animais/:id', () => {
-    it('deve retornar erro para animal inexistente', async () => {
+    it('deve retornar erro para animal inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.animal.delete.mockRejectedValue(new Error('Animal não encontrado'));
-      
+
       const response = await request(app)
         .delete('/animais/999');
 

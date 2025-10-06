@@ -4,14 +4,14 @@ import prisma from '../../config/database';
 export class UsuarioRepository {
   async create(usuarioData: Usuario): Promise<Usuario> {
     const usuario = await prisma.usuario.create({
-      data: usuarioData
+      data: usuarioData,
     });
     return usuario;
   }
 
   async getByCpf(cpf: string): Promise<Usuario | null> {
     const usuario = await prisma.usuario.findUnique({
-      where: { cpf }
+      where: { cpf },
     });
     return usuario;
   }
@@ -25,10 +25,11 @@ export class UsuarioRepository {
     try {
       const usuario = await prisma.usuario.update({
         where: { cpf },
-        data: updateData
+        data: updateData,
       });
       return usuario;
     } catch (error) {
+      console.error('Erro ao atualizar usuário:', error);
       return null;
     }
   }
@@ -36,10 +37,11 @@ export class UsuarioRepository {
   async delete(cpf: string): Promise<boolean> {
     try {
       await prisma.usuario.delete({
-        where: { cpf }
+        where: { cpf },
       });
       return true;
     } catch (error) {
+      console.error('Erro ao deletar usuário:', error);
       return false;
     }
   }

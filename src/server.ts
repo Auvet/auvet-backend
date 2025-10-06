@@ -15,11 +15,12 @@ setupSwagger(app);
 
 app.use('/api', routes);
 
-app.get('/health', async (_req, res) => {
+app.get('/health', async(_req, res) => {
   try {
     await prisma.$connect();
     res.json({ status: 'OK', database: 'Connected' });
   } catch (error) {
+    console.error('Erro na conexão com o banco:', error);
     res.status(500).json({ status: 'ERROR', database: 'Disconnected' });
   }
 });

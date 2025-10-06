@@ -8,7 +8,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
       motivo: 'Consulta de rotina',
       status: 'agendada',
       animalId: 1,
-      funcionarioCpf: ValidatorUtils.generateRandomCPF()
+      funcionarioCpf: ValidatorUtils.generateRandomCPF(),
     };
 
     it('deve validar dados da consulta válidos', () => {
@@ -21,7 +21,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
       { cpf: '123', description: 'CPF muito curto' },
       { cpf: '123456789012345', description: 'CPF muito longo' },
       { cpf: '00000000000', description: 'CPF com zeros' },
-      { cpf: '11111111111', description: 'CPF com dígitos repetidos' }
+      { cpf: '11111111111', description: 'CPF com dígitos repetidos' },
     ];
 
     cpfInvalidCases.forEach(({ cpf, description }) => {
@@ -36,7 +36,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
     const animalIdInvalidCases = [
       { animalId: -1, description: 'ID negativo' },
       { animalId: 0, description: 'ID zero' },
-      { animalId: 'abc', description: 'ID não numérico' }
+      { animalId: 'abc', description: 'ID não numérico' },
     ];
 
     animalIdInvalidCases.forEach(({ animalId, description }) => {
@@ -51,7 +51,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
     const statusInvalidCases = [
       { status: '', description: 'Status vazio' },
       { status: 'status_invalido', description: 'Status inexistente' },
-      { status: null, description: 'Status nulo' }
+      { status: null, description: 'Status nulo' },
     ];
 
     statusInvalidCases.forEach(({ status, description }) => {
@@ -68,7 +68,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
       { field: 'hora', description: 'Hora obrigatória' },
       { field: 'status', description: 'Status obrigatório' },
       { field: 'animalId', description: 'AnimalId obrigatório' },
-      { field: 'funcionarioCpf', description: 'CPF do funcionário obrigatório' }
+      { field: 'funcionarioCpf', description: 'CPF do funcionário obrigatório' },
     ];
 
     requiredFields.forEach(({ field, description }) => {
@@ -82,7 +82,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
     });
 
     const validStatuses = ['agendada', 'realizada', 'cancelada', 'remarcada'];
-    
+
     validStatuses.forEach(status => {
       it(`deve aceitar status válido: ${status}`, () => {
         const validDataWithStatus = { ...validData, status };

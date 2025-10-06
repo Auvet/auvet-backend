@@ -23,36 +23,36 @@ describe('TutorService - Testes Unitários', () => {
   });
 
   describe('createTutor', () => {
-    it('deve falhar ao criar tutor com dados inválidos', async () => {
+    it('deve falhar ao criar tutor com dados inválidos', async() => {
       const usuarioData = {
         cpf: '',
         nome: 'João Silva',
         email: 'joao@email.com',
         senha: 'senha123',
-        dataCadastro: new Date()
+        dataCadastro: new Date(),
       };
 
       const tutorData = {
         telefone: '11999999999',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       await expect(tutorService.createTutor(usuarioData, tutorData))
         .rejects.toThrow();
     });
 
-    it('deve falhar ao criar tutor com telefone inválido', async () => {
+    it('deve falhar ao criar tutor com telefone inválido', async() => {
       const usuarioData = {
         cpf: '12345678901',
         nome: 'João Silva',
         email: 'joao@email.com',
         senha: 'senha123',
-        dataCadastro: new Date()
+        dataCadastro: new Date(),
       };
 
       const tutorData = {
         telefone: '',
-        endereco: 'Rua das Flores, 123'
+        endereco: 'Rua das Flores, 123',
       };
 
       await expect(tutorService.createTutor(usuarioData, tutorData))
@@ -61,30 +61,30 @@ describe('TutorService - Testes Unitários', () => {
   });
 
   describe('getByCpf', () => {
-    it('deve retornar null para tutor inexistente', async () => {
+    it('deve retornar null para tutor inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.tutor.findUnique.mockResolvedValue(null);
-      
+
       const result = await tutorService.getByCpf('99999999999');
       expect(result).toBeNull();
     });
   });
 
   describe('getAll', () => {
-    it('deve retornar array vazio quando não há tutores', async () => {
+    it('deve retornar array vazio quando não há tutores', async() => {
       const prisma = require('../../../config/database');
       prisma.tutor.findMany.mockResolvedValue([]);
-      
+
       const result = await tutorService.getAll();
       expect(result).toHaveLength(0);
     });
   });
 
   describe('update', () => {
-    it('deve retornar null para tutor inexistente', async () => {
+    it('deve retornar null para tutor inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.tutor.update.mockRejectedValue(new Error('Tutor não encontrado'));
-      
+
       const updateData = { telefone: '11988888888' };
       const result = await tutorService.update('99999999999', updateData);
       expect(result).toBeNull();
@@ -92,10 +92,10 @@ describe('TutorService - Testes Unitários', () => {
   });
 
   describe('delete', () => {
-    it('deve retornar false para tutor inexistente', async () => { 
+    it('deve retornar false para tutor inexistente', async() => {
       const prisma = require('../../../config/database');
       prisma.tutor.delete.mockRejectedValue(new Error('Tutor não encontrado'));
-      
+
       const result = await tutorService.delete('99999999999');
       expect(result).toBe(false);
     });

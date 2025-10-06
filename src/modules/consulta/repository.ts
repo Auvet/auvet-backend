@@ -6,14 +6,14 @@ export class ConsultaRepository {
 
   async create(data: Omit<Consulta, 'id'>): Promise<Consulta> {
     const consulta = await this.prisma.consulta.create({
-      data
+      data,
     });
     return consulta;
   }
 
   async findById(id: number): Promise<Consulta | null> {
     const consulta = await this.prisma.consulta.findUnique({
-      where: { id }
+      where: { id },
     });
     return consulta;
   }
@@ -21,7 +21,7 @@ export class ConsultaRepository {
   async findByAnimalId(animalId: number): Promise<Consulta[]> {
     const consultas = await this.prisma.consulta.findMany({
       where: { animalId },
-      orderBy: { data: 'desc' }
+      orderBy: { data: 'desc' },
     });
     return consultas;
   }
@@ -29,14 +29,14 @@ export class ConsultaRepository {
   async findByFuncionarioCpf(funcionarioCpf: string): Promise<Consulta[]> {
     const consultas = await this.prisma.consulta.findMany({
       where: { funcionarioCpf },
-      orderBy: { data: 'desc' }
+      orderBy: { data: 'desc' },
     });
     return consultas;
   }
 
   async findAll(): Promise<Consulta[]> {
     const consultas = await this.prisma.consulta.findMany({
-      orderBy: { data: 'desc' }
+      orderBy: { data: 'desc' },
     });
     return consultas;
   }
@@ -45,10 +45,11 @@ export class ConsultaRepository {
     try {
       const consulta = await this.prisma.consulta.update({
         where: { id },
-        data
+        data,
       });
       return consulta;
     } catch (error) {
+      console.error('Erro ao atualizar consulta:', error);
       return null;
     }
   }
@@ -56,10 +57,11 @@ export class ConsultaRepository {
   async delete(id: number): Promise<boolean> {
     try {
       await this.prisma.consulta.delete({
-        where: { id }
+        where: { id },
       });
       return true;
     } catch (error) {
+      console.error('Erro ao deletar consulta:', error);
       return false;
     }
   }

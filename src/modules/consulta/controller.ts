@@ -31,7 +31,7 @@ export class ConsultaController {
         status: req.body.status || 'agendada',
         observacoes: req.body.observacoes || null,
         animalId: req.body.animalId,
-        funcionarioCpf: req.body.funcionarioCpf
+        funcionarioCpf: req.body.funcionarioCpf,
       };
 
       const consulta = await this.consultaService.createConsulta(consultaData);
@@ -39,7 +39,7 @@ export class ConsultaController {
       const response: ApiResponse = {
         success: true,
         data: consulta,
-        message: 'Consulta criada com sucesso'
+        message: 'Consulta criada com sucesso',
       };
 
       res.status(201).json(response);
@@ -48,7 +48,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -63,7 +63,7 @@ export class ConsultaController {
         success: true,
         data: consultas,
         count: consultas.length,
-        message: 'Consultas listadas com sucesso'
+        message: 'Consultas listadas com sucesso',
       };
 
       res.status(200).json(response);
@@ -72,7 +72,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -87,7 +87,7 @@ export class ConsultaController {
       if (!consulta) {
         const response: ApiResponse = {
           success: false,
-          error: 'Consulta não encontrada'
+          error: 'Consulta não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -96,7 +96,7 @@ export class ConsultaController {
       const response: ApiResponse = {
         success: true,
         data: consulta,
-        message: 'Consulta encontrada com sucesso'
+        message: 'Consulta encontrada com sucesso',
       };
 
       res.status(200).json(response);
@@ -105,7 +105,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -121,7 +121,7 @@ export class ConsultaController {
         success: true,
         data: consultas,
         count: consultas.length,
-        message: 'Consultas do animal listadas com sucesso'
+        message: 'Consultas do animal listadas com sucesso',
       };
 
       res.status(200).json(response);
@@ -130,7 +130,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -146,7 +146,7 @@ export class ConsultaController {
         success: true,
         data: consultas,
         count: consultas.length,
-        message: 'Consultas do funcionário listadas com sucesso'
+        message: 'Consultas do funcionário listadas com sucesso',
       };
 
       res.status(200).json(response);
@@ -155,7 +155,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -166,21 +166,21 @@ export class ConsultaController {
     try {
       const id = parseInt(req.params['id']!);
       const updateData: Partial<Omit<Consulta, 'id'>> = {};
-      
-      if (req.body.data) updateData.data = new Date(req.body.data);
-      if (req.body.hora) updateData.hora = new Date(req.body.hora);
-      if (req.body.motivo !== undefined) updateData.motivo = req.body.motivo || null;
-      if (req.body.status !== undefined) updateData.status = req.body.status;
-      if (req.body.observacoes !== undefined) updateData.observacoes = req.body.observacoes || null;
-      if (req.body.animalId !== undefined) updateData.animalId = req.body.animalId;
-      if (req.body.funcionarioCpf !== undefined) updateData.funcionarioCpf = req.body.funcionarioCpf;
+
+      if (req.body.data) {updateData.data = new Date(req.body.data);}
+      if (req.body.hora) {updateData.hora = new Date(req.body.hora);}
+      if (req.body.motivo !== undefined) {updateData.motivo = req.body.motivo || null;}
+      if (req.body.status !== undefined) {updateData.status = req.body.status;}
+      if (req.body.observacoes !== undefined) {updateData.observacoes = req.body.observacoes || null;}
+      if (req.body.animalId !== undefined) {updateData.animalId = req.body.animalId;}
+      if (req.body.funcionarioCpf !== undefined) {updateData.funcionarioCpf = req.body.funcionarioCpf;}
 
       const updatedConsulta = await this.consultaService.update(id, updateData);
 
       if (!updatedConsulta) {
         const response: ApiResponse = {
           success: false,
-          error: 'Consulta não encontrada'
+          error: 'Consulta não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -189,7 +189,7 @@ export class ConsultaController {
       const response: ApiResponse = {
         success: true,
         data: updatedConsulta,
-        message: 'Consulta atualizada com sucesso'
+        message: 'Consulta atualizada com sucesso',
       };
 
       res.status(200).json(response);
@@ -198,7 +198,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);
@@ -213,7 +213,7 @@ export class ConsultaController {
       if (!result) {
         const response: ApiResponse = {
           success: false,
-          error: 'Consulta não encontrada'
+          error: 'Consulta não encontrada',
         };
         res.status(404).json(response);
         return;
@@ -221,7 +221,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: true,
-        message: 'Consulta deletada com sucesso'
+        message: 'Consulta deletada com sucesso',
       };
 
       res.status(200).json(response);
@@ -230,7 +230,7 @@ export class ConsultaController {
 
       const response: ApiResponse = {
         success: false,
-        error: error instanceof Error ? error.message : 'Erro interno do servidor'
+        error: error instanceof Error ? error.message : 'Erro interno do servidor',
       };
 
       res.status(500).json(response);

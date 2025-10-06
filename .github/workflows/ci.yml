@@ -1,0 +1,62 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root123
+          MYSQL_DATABASE: auvet_db
+          MYSQL_USER: auvet_user
+          MYSQL_PASSWORD: auvet123
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping -h localhost -u auvet_user -pauvet123" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Generate Prisma client
+      run: npx prisma generate
+
+    - name: Push database schema
+      run: npx prisma db push --force-reset
+      env:
+        DATABASE_URL: mysql://auvet_user:auvet123@localhost:3306/auvet_db
+
+    - name: Run lint
+      run: npm run lint:check
+
+    - name: Run tests
+      run: npm test
+      env:
+        DATABASE_URL: mysql://auvet_user:auvet123@localhost:3306/auvet_db
+
+    - name: Build application
+      run: npm run build
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-files
+        path: dist/
+        retention-days: 7
