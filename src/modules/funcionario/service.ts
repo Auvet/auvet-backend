@@ -1,6 +1,7 @@
 import { Funcionario, Usuario } from '../../types';
 import { FuncionarioRepository } from './repository';
 import { UsuarioService } from '../usuario/service';
+import { FuncionarioValidator } from '../../utils/validators';
 
 export class FuncionarioService {
   private funcionarioRepository: FuncionarioRepository;
@@ -13,7 +14,20 @@ export class FuncionarioService {
 
   async createFuncionario(usuarioData: Usuario, funcionarioData: Omit<Funcionario, 'cpf'>): Promise<Funcionario> {
     console.log(`Iniciando criação de funcionário para CPF: ${usuarioData.cpf}`);
-    
+
+    const validation = FuncionarioValidator.validateFuncionarioData({
+      cpf: usuarioData.cpf,
+      nome: usuarioData.nome,
+      email: usuarioData.email,
+      senha: usuarioData.senha,
+      cargo: funcionarioData.cargo,
+      nivelAcesso: funcionarioData.nivelAcesso,
+    });
+
+    if (!validation.isValid) {
+      throw new Error(validation.errors.join(', '));
+    }
+
     const existingUsuario = await this.usuarioService.getByCpf(usuarioData.cpf);
     if (existingUsuario) {
       console.log(`Usuário já existe com CPF: ${usuarioData.cpf}`);
@@ -31,63 +45,63 @@ export class FuncionarioService {
 
     const funcionario = await this.funcionarioRepository.create({
       cpf: usuarioData.cpf,
-      ...funcionarioData
+      ...funcionarioData,
     });
 
     console.log(`Funcionário criado com sucesso: ${funcionario.cpf} - Cargo: ${funcionario.cargo}`);
-    
+
     return funcionario;
   }
 
   async getByCpf(cpf: string): Promise<Funcionario | null> {
     console.log(`Buscando funcionário por CPF: ${cpf}`);
-    
+
     const funcionario = await this.funcionarioRepository.findByCpf(cpf);
-    
+
     if (funcionario) {
       console.log(`Funcionário encontrado: ${funcionario.cpf} - ${funcionario.cargo}`);
     } else {
       console.log(`Funcionário não encontrado para CPF: ${cpf}`);
     }
-    
+
     return funcionario;
   }
 
   async getAll(): Promise<Funcionario[]> {
     console.log('Buscando todos os funcionários');
-    
+
     const funcionarios = await this.funcionarioRepository.findAll();
-    
+
     console.log(`Encontrados ${funcionarios.length} funcionários`);
-    
+
     return funcionarios;
   }
 
   async update(cpf: string, updateData: Partial<Funcionario>): Promise<Funcionario | null> {
     console.log(`Atualizando funcionário CPF: ${cpf}`);
-    
+
     const funcionario = await this.funcionarioRepository.update(cpf, updateData);
-    
+
     if (funcionario) {
       console.log(`Funcionário atualizado com sucesso: ${funcionario.cpf}`);
     } else {
       console.log(`Falha ao atualizar funcionário CPF: ${cpf}`);
     }
-    
+
     return funcionario;
   }
 
   async delete(cpf: string): Promise<boolean> {
     console.log(`Deletando funcionário CPF: ${cpf}`);
-    
+
     const deleted = await this.funcionarioRepository.delete(cpf);
-    
+
     if (deleted) {
       console.log(`Funcionário deletado com sucesso: ${cpf}`);
     } else {
       console.log(`Falha ao deletar funcionário CPF: ${cpf}`);
     }
-    
+
     return deleted;
   }
 }

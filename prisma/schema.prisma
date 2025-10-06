@@ -79,7 +79,7 @@ model Animal {
 model Consulta {
   id              Int      @id @default(autoincrement())
   data            DateTime @db.Date
-  hora            DateTime @db.Time
+  hora            DateTime
   motivo          String?  @db.VarChar(200)
   status          String   @default("agendada") @db.VarChar(20)
   observacoes     String?  @db.Text

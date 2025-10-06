@@ -6,7 +6,7 @@ export class FuncionarioRepository {
 
   async create(data: Funcionario): Promise<Funcionario> {
     const funcionario = await this.prisma.funcionario.create({
-      data
+      data,
     });
 
     return funcionario;
@@ -14,7 +14,7 @@ export class FuncionarioRepository {
 
   async findByCpf(cpf: string): Promise<Funcionario | null> {
     const funcionario = await this.prisma.funcionario.findUnique({
-      where: { cpf }
+      where: { cpf },
     });
 
     return funcionario;
@@ -29,11 +29,12 @@ export class FuncionarioRepository {
     try {
       const funcionario = await this.prisma.funcionario.update({
         where: { cpf },
-        data
+        data,
       });
 
       return funcionario;
     } catch (error) {
+      console.error('Erro ao atualizar funcionário:', error);
       return null;
     }
   }
@@ -41,11 +42,12 @@ export class FuncionarioRepository {
   async delete(cpf: string): Promise<boolean> {
     try {
       await this.prisma.funcionario.delete({
-        where: { cpf }
+        where: { cpf },
       });
 
       return true;
     } catch (error) {
+      console.error('Erro ao deletar funcionário:', error);
       return false;
     }
   }
