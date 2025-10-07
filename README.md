@@ -37,12 +37,12 @@ npm run lint:check
 ## Histórico de Versões
 
 ### v1.1.0 (06/10/2025)
-- ✅ Autenticação JWT com API externa
-- ✅ Middleware de autenticação global
-- ✅ ESLint com formatação automática
-- ✅ CI/CD Pipeline com GitHub Actions
-- ✅ Logging de erros nos repositories
-- ✅ Configuração Docker com lint e testes
+- Autenticação JWT com API externa
+- Middleware de autenticação global
+- ESLint com formatação automática
+- CI/CD Pipeline com GitHub Actions
+- Logging de erros nos repositories
+- Configuração Docker com lint e testes
 
 ### v1.0.0 (24/09/2025)
 - Implementação inicial do sistema
