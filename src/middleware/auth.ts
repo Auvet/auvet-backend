@@ -16,7 +16,7 @@ export const authenticateToken = async(req: Request, res: Response, next: NextFu
       return;
     }
 
-    const response = await axios.post(`${AUTH_API_URL}/validatetoken`, {
+    const response = await axios.post(`${AUTH_API_URL}/api/auth/validatetoken`, {
       token,
     });
 

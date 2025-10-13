@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: auvet-backend-prod
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=${DATABASE_URL}
+      - PORT=3000
+      - AUTH_API_URL=https://auvet-autenticacao.onrender.com
+    env_file:
+      - .env.production
+    networks:
+      - auvet-network-prod
+
+networks:
+  auvet-network-prod:
+    driver: bridge
+
