@@ -56,6 +56,9 @@ module.exports = [
       'node_modules/',
       '*.js',
       'coverage/',
+      '**/*.test.ts',
+      '**/*.spec.ts',
+      '**/tests/**',
     ],
   },
 ];
