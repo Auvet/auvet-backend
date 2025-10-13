@@ -1,6 +1,7 @@
 import { Animal } from '../../types';
 import { AnimalRepository } from './repository';
 import { AnimalValidator } from '../../utils/validators';
+import prisma from '../../config/database';
 
 export class AnimalService {
   private animalRepository: AnimalRepository;
@@ -15,6 +16,14 @@ export class AnimalService {
     const validation = AnimalValidator.validateAnimalData(animalData);
     if (!validation.isValid) {
       throw new Error(validation.errors.join(', '));
+    }
+
+    const tutorExists = await prisma.tutor.findUnique({
+      where: { cpf: animalData.tutorCpf },
+    });
+
+    if (!tutorExists) {
+      throw new Error(`Tutor com CPF ${animalData.tutorCpf} não encontrado. Certifique-se de que o tutor está cadastrado.`);
     }
 
     if (animalData.especie && animalData.especie.trim().length > 50) {
