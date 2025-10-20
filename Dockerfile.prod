@@ -22,9 +22,9 @@ echo "Starting AUVET Backend (Production)..."\n\
 echo "Generating Prisma client..."\n\
 npx prisma generate\n\
 \n\
-# Push database schema\n\
-echo "Pushing database schema..."\n\
-npx prisma db push\n\
+# Deploy migrations (safe for production)\n\
+echo "Deploying migrations..."\n\
+npx prisma migrate deploy\n\
 \n\
 echo "Starting application..."\n\
 exec "$@"' > /usr/local/bin/docker-entrypoint.sh && \
