@@ -5,7 +5,7 @@ export interface Clinica {
   telefone: string | null;
   email: string | null;
   dataCadastro: Date;
-  administradorCpf: string;
+  administradorCpf: string | null;
 }
 
 export interface Usuario {
@@ -59,6 +59,16 @@ export interface Vacina {
   dataAplicacao: Date;
   dataValidade: Date | null;
   animalId: number;
+}
+
+export interface FuncionarioClinica {
+  funcionarioCpf: string;
+  clinicaCnpj: string;
+}
+
+export interface TutorClinica {
+  tutorCpf: string;
+  clinicaCnpj: string;
 }
 
 export interface ApiResponse<T = any> {

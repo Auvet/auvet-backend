@@ -11,6 +11,10 @@ jest.mock('../../../config/database', () => ({
   },
   usuario: {
     findUnique: jest.fn(),
+    create: jest.fn(),
+  },
+  tutorClinica: {
+    create: jest.fn(),
   },
 }));
 
@@ -23,6 +27,26 @@ describe('TutorService - Testes Unitários', () => {
   });
 
   describe('createTutor', () => {
+    it('deve falhar ao criar tutor sem clínica vinculada', async() => {
+      const usuarioData = {
+        cpf: '12345678901',
+        nome: 'João Silva',
+        email: 'joao@email.com',
+        senha: 'senha123',
+        dataCadastro: new Date(),
+      };
+
+      const tutorData = {
+        telefone: '11999999999',
+        endereco: 'Rua das Flores, 123',
+      };
+
+      const clinicas: string[] = [];
+
+      await expect(tutorService.createTutor(usuarioData, tutorData, clinicas))
+        .rejects.toThrow('Tutor deve estar vinculado a pelo menos uma clínica');
+    });
+
     it('deve falhar ao criar tutor com dados inválidos', async() => {
       const usuarioData = {
         cpf: '',
@@ -37,7 +61,9 @@ describe('TutorService - Testes Unitários', () => {
         endereco: 'Rua das Flores, 123',
       };
 
-      await expect(tutorService.createTutor(usuarioData, tutorData))
+      const clinicas = ['12345678000190'];
+
+      await expect(tutorService.createTutor(usuarioData, tutorData, clinicas))
         .rejects.toThrow();
     });
 
@@ -55,7 +81,9 @@ describe('TutorService - Testes Unitários', () => {
         endereco: 'Rua das Flores, 123',
       };
 
-      await expect(tutorService.createTutor(usuarioData, tutorData))
+      const clinicas = ['12345678000190'];
+
+      await expect(tutorService.createTutor(usuarioData, tutorData, clinicas))
         .rejects.toThrow();
     });
   });

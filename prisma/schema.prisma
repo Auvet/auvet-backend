@@ -8,15 +8,17 @@ datasource db {
 }
 
 model Clinica {
-  cnpj              String   @id @db.VarChar(14)
-  nome              String   @db.VarChar(100)
-  endereco          String?  @db.VarChar(200)
-  telefone          String?  @db.VarChar(20)
-  email             String?  @db.VarChar(100)
-  dataCadastro      DateTime @default(now()) @map("data_cadastro")
-  administradorCpf  String   @map("administrador_cpf") @db.VarChar(11)
+  cnpj              String               @id @db.VarChar(14)
+  nome              String               @db.VarChar(100)
+  endereco          String?              @db.VarChar(200)
+  telefone          String?              @db.VarChar(20)
+  email             String?              @db.VarChar(100)
+  dataCadastro      DateTime             @default(now()) @map("data_cadastro")
+  administradorCpf  String?              @map("administrador_cpf") @db.VarChar(11)
   
-  administrador     Funcionario @relation(fields: [administradorCpf], references: [cpf])
+  administrador     Funcionario?         @relation("ClinicaAdministrador", fields: [administradorCpf], references: [cpf])
+  funcionarios      FuncionarioClinica[]
+  tutores           TutorClinica[]
   
   @@map("clinica")
 }
@@ -35,26 +37,28 @@ model Usuario {
 }
 
 model Funcionario {
-  cpf                   String   @id @db.VarChar(11)
-  cargo                 String   @db.VarChar(50)
-  registroProfissional  String?  @map("registro_profissional") @db.VarChar(50)
-  status                String   @default("ativo") @db.VarChar(20)
-  nivelAcesso           Int      @default(1) @map("nivel_acesso")
+  cpf                   String              @id @db.VarChar(11)
+  cargo                 String              @db.VarChar(50)
+  registroProfissional  String?             @map("registro_profissional") @db.VarChar(50)
+  status                String              @default("ativo") @db.VarChar(20)
+  nivelAcesso           Int                 @default(1) @map("nivel_acesso")
   
-  usuario               Usuario  @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
-  clinicas              Clinica[]
+  usuario               Usuario             @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
+  clinicasAdministradas Clinica[]           @relation("ClinicaAdministrador")
+  clinicas              FuncionarioClinica[]
   consultas             Consulta[]
   
   @@map("funcionario")
 }
 
 model Tutor {
-  cpf       String   @id @db.VarChar(11)
-  telefone  String?  @db.VarChar(20)
-  endereco  String?  @db.VarChar(200)
+  cpf       String         @id @db.VarChar(11)
+  telefone  String?        @db.VarChar(20)
+  endereco  String?         @db.VarChar(200)
   
-  usuario   Usuario  @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
+  usuario   Usuario        @relation(fields: [cpf], references: [cpf], onDelete: Cascade)
   animais   Animal[]
+  clinicas  TutorClinica[]
   
   @@map("tutor")
 }
@@ -103,4 +107,26 @@ model Vacina {
   animal        Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
   
   @@map("vacina")
+}
+
+model FuncionarioClinica {
+  funcionarioCpf  String      @map("funcionario_cpf") @db.VarChar(11)
+  clinicaCnpj     String      @map("clinica_cnpj") @db.VarChar(14)
+  
+  funcionario     Funcionario @relation(fields: [funcionarioCpf], references: [cpf], onDelete: Cascade)
+  clinica         Clinica     @relation(fields: [clinicaCnpj], references: [cnpj], onDelete: Cascade)
+  
+  @@id([funcionarioCpf, clinicaCnpj])
+  @@map("funcionario_clinica")
+}
+
+model TutorClinica {
+  tutorCpf    String   @map("tutor_cpf") @db.VarChar(11)
+  clinicaCnpj String   @map("clinica_cnpj") @db.VarChar(14)
+  
+  tutor       Tutor    @relation(fields: [tutorCpf], references: [cpf], onDelete: Cascade)
+  clinica     Clinica  @relation(fields: [clinicaCnpj], references: [cnpj], onDelete: Cascade)
+  
+  @@id([tutorCpf, clinicaCnpj])
+  @@map("tutor_clinica")
 }

@@ -1,19 +1,31 @@
 import { Tutor, Usuario } from '../../types';
 import { TutorRepository } from './repository';
 import { UsuarioService } from '../usuario/service';
+import { TutorClinicaService } from '../tutor-clinica/service';
 import { TutorValidator } from '../../utils/validators';
 
 export class TutorService {
   private tutorRepository: TutorRepository;
   private usuarioService: UsuarioService;
+  private tutorClinicaService: TutorClinicaService;
 
   constructor() {
     this.tutorRepository = new TutorRepository();
     this.usuarioService = new UsuarioService();
+    this.tutorClinicaService = new TutorClinicaService();
   }
 
-  async createTutor(usuarioData: Usuario, tutorData: Omit<Tutor, 'cpf'>): Promise<Tutor> {
+  async createTutor(
+    usuarioData: Usuario,
+    tutorData: Omit<Tutor, 'cpf'>,
+    clinicasCnpj: string[],
+  ): Promise<Tutor> {
     console.log(`Iniciando criação de tutor para CPF: ${usuarioData.cpf}`);
+
+    // Validar que pelo menos uma clínica foi informada
+    if (!clinicasCnpj || clinicasCnpj.length === 0) {
+      throw new Error('Tutor deve estar vinculado a pelo menos uma clínica');
+    }
 
     const validation = TutorValidator.validateTutorData({
       cpf: usuarioData.cpf,
@@ -49,6 +61,18 @@ export class TutorService {
     });
 
     console.log(`Tutor criado com sucesso: ${tutor.cpf}`);
+
+    for (const cnpj of clinicasCnpj) {
+      try {
+        await this.tutorClinicaService.create({
+          tutorCpf: tutor.cpf,
+          clinicaCnpj: cnpj,
+        });
+        console.log(`Tutor vinculado à clínica: ${cnpj}`);
+      } catch (error) {
+        console.error(`Erro ao vincular tutor à clínica ${cnpj}:`, error);
+      }
+    }
 
     return tutor;
   }

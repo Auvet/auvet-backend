@@ -23,13 +23,23 @@ export class TutorController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      const { cpf, nome, email, senha, telefone, endereco } = req.body;
+      const { cpf, nome, email, senha, telefone, endereco, clinicas } = req.body;
 
       const validation = TutorValidator.validateTutorData(req.body);
       if (!validation.isValid) {
         const response: ApiResponse = {
           success: false,
           error: validation.errors.join(', '),
+        };
+        res.status(400).json(response);
+        return;
+      }
+
+      // Validar que pelo menos uma clínica foi informada
+      if (!clinicas || !Array.isArray(clinicas) || clinicas.length === 0) {
+        const response: ApiResponse = {
+          success: false,
+          error: 'Tutor deve estar vinculado a pelo menos uma clínica',
         };
         res.status(400).json(response);
         return;
@@ -48,7 +58,7 @@ export class TutorController {
         endereco: endereco || null,
       };
 
-      const tutorCriado = await this.tutorService.createTutor(usuarioData, tutorData);
+      const tutorCriado = await this.tutorService.createTutor(usuarioData, tutorData, clinicas);
 
       const response: ApiResponse<Tutor> = {
         success: true,

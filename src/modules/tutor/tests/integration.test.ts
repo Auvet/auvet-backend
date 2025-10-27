@@ -13,6 +13,10 @@ jest.mock('../../../config/database', () => ({
   },
   usuario: {
     findUnique: jest.fn(),
+    create: jest.fn(),
+  },
+  tutorClinica: {
+    create: jest.fn(),
   },
 }));
 
@@ -42,6 +46,25 @@ describe('TutorController - Testes de Integração', () => {
   });
 
   describe('POST /tutores', () => {
+    it('deve falhar ao criar tutor sem clínicas vinculadas', async() => {
+      const tutorData = {
+        cpf: '12345678901',
+        nome: 'João Silva',
+        email: 'joao@email.com',
+        senha: 'senha123',
+        telefone: '11999999999',
+        endereco: 'Rua das Flores, 123',
+      };
+
+      const response = await request(app)
+        .post('/tutores')
+        .send(tutorData);
+
+      expect(response.status).toBe(400);
+      expect(response.body.success).toBe(false);
+      expect(response.body.error).toContain('clínica');
+    });
+
     it('deve falhar ao criar tutor com dados inválidos', async() => {
       const tutorData = {
         cpf: '',
@@ -50,6 +73,7 @@ describe('TutorController - Testes de Integração', () => {
         senha: 'senha123',
         telefone: '11999999999',
         endereco: 'Rua das Flores, 123',
+        clinicas: ['12345678000190'],
       };
 
       const response = await request(app)
@@ -68,6 +92,7 @@ describe('TutorController - Testes de Integração', () => {
         senha: 'senha123',
         telefone: '',
         endereco: 'Rua das Flores, 123',
+        clinicas: ['12345678000190'],
       };
 
       const response = await request(app)
