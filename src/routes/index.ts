@@ -8,6 +8,7 @@ import { ClinicaController } from '../modules/clinica/controller';
 import { ConsultaController } from '../modules/consulta/controller';
 import { FuncionarioClinicaController } from '../modules/funcionario-clinica/controller';
 import { TutorClinicaController } from '../modules/tutor-clinica/controller';
+import { AnimalClinicaController } from '../modules/animal-clinica/controller';
 import { authenticateToken } from '../middleware/auth';
 
 const router = Router();
@@ -21,6 +22,7 @@ const clinicaController = new ClinicaController();
 const consultaController = new ConsultaController();
 const funcionarioClinicaController = new FuncionarioClinicaController();
 const tutorClinicaController = new TutorClinicaController();
+const animalClinicaController = new AnimalClinicaController();
 
 router.use(authenticateToken);
 
@@ -33,5 +35,6 @@ router.use('/clinicas', clinicaController.router);
 router.use('/consultas', consultaController.router);
 router.use('/funcionario-clinica', funcionarioClinicaController.router);
 router.use('/tutor-clinica', tutorClinicaController.router);
+router.use('/animal-clinica', animalClinicaController.router);
 
 export default router;

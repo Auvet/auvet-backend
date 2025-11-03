@@ -9,6 +9,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         dataAplicacao: '2024-01-15',
         dataValidade: '2024-12-31',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -21,6 +22,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: '',
         dataAplicacao: '2024-01-15',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -33,6 +35,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'A',
         dataAplicacao: '2024-01-15',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -45,6 +48,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V10',
         dataAplicacao: 'data-invalida',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -57,6 +61,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V10',
         dataAplicacao: '2030-01-01',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -69,6 +74,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
         animalId: -1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -81,6 +87,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
         animalId: 0,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -93,6 +100,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V10',
         dataAplicacao: '2024-01-15',
         animalId: 'abc',
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -105,6 +113,7 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V1',
         dataAplicacao: '2024-01-15',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
@@ -117,11 +126,33 @@ describe('VacinaValidator - Testes Parametrizados', () => {
         nome: 'V'.repeat(50),
         dataAplicacao: '2024-01-15',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const result = VacinaValidator.validateVacinaData(data);
       expect(result.isValid).toBe(true);
       expect(result.errors).toHaveLength(0);
+    });
+
+    const cnpjInvalidCases = [
+      { cnpj: '123', description: 'CNPJ muito curto' },
+      { cnpj: '1234567890123456', description: 'CNPJ muito longo' },
+      { cnpj: '00000000000000', description: 'CNPJ com zeros' },
+      { cnpj: '11111111111111', description: 'CNPJ com dígitos repetidos' },
+    ];
+
+    cnpjInvalidCases.forEach(({ cnpj, description }) => {
+      it(`deve rejeitar CNPJ inválido - ${description}`, () => {
+        const invalidData = {
+          nome: 'V10',
+          dataAplicacao: '2024-01-15',
+          animalId: 1,
+          clinicaCnpj: cnpj,
+        };
+        const result = VacinaValidator.validateVacinaData(invalidData);
+        expect(result.isValid).toBe(false);
+        expect(result.errors.length).toBeGreaterThan(0);
+      });
     });
   });
 });

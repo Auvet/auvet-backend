@@ -50,6 +50,7 @@ export interface Consulta {
   observacoes: string | null;
   animalId: number;
   funcionarioCpf: string;
+  clinicaCnpj: string;
 }
 
 export interface Vacina {
@@ -59,6 +60,7 @@ export interface Vacina {
   dataAplicacao: Date;
   dataValidade: Date | null;
   animalId: number;
+  clinicaCnpj: string;
 }
 
 export interface FuncionarioClinica {
@@ -68,6 +70,11 @@ export interface FuncionarioClinica {
 
 export interface TutorClinica {
   tutorCpf: string;
+  clinicaCnpj: string;
+}
+
+export interface AnimalClinica {
+  animalId: number;
   clinicaCnpj: string;
 }
 

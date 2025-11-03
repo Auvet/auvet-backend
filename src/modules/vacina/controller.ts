@@ -24,7 +24,7 @@ export class VacinaController {
 
   async create(req: Request, res: Response): Promise<void> {
     try {
-      const { nome, fabricante, dataAplicacao, dataValidade, animalId } = req.body;
+      const { nome, fabricante, dataAplicacao, dataValidade, animalId, clinicaCnpj } = req.body;
 
       const validation = VacinaValidator.validateVacinaData(req.body);
       if (!validation.isValid) {
@@ -42,6 +42,7 @@ export class VacinaController {
         dataAplicacao: new Date(dataAplicacao),
         dataValidade: dataValidade ? new Date(dataValidade) : null,
         animalId,
+        clinicaCnpj,
       };
 
       const vacinaCriada = await this.vacinaService.createVacina(vacinaData);

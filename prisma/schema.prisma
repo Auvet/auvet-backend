@@ -19,6 +19,9 @@ model Clinica {
   administrador     Funcionario?         @relation("ClinicaAdministrador", fields: [administradorCpf], references: [cpf])
   funcionarios      FuncionarioClinica[]
   tutores           TutorClinica[]
+  animais           AnimalClinica[]
+  consultas         Consulta[]
+  vacinas           Vacina[]
   
   @@map("clinica")
 }
@@ -74,6 +77,7 @@ model Animal {
   tutorCpf  String   @map("tutor_cpf") @db.VarChar(11)
   
   tutor     Tutor    @relation(fields: [tutorCpf], references: [cpf], onDelete: Cascade)
+  clinicas  AnimalClinica[]
   consultas Consulta[]
   vacinas   Vacina[]
   
@@ -89,9 +93,11 @@ model Consulta {
   observacoes     String?  @db.Text
   animalId        Int      @map("animal_id")
   funcionarioCpf  String   @map("funcionario_cpf") @db.VarChar(11)
+  clinicaCnpj     String   @map("clinica_cnpj") @db.VarChar(14)
   
   animal          Animal     @relation(fields: [animalId], references: [id], onDelete: Cascade)
   funcionario     Funcionario @relation(fields: [funcionarioCpf], references: [cpf])
+  clinica         Clinica     @relation(fields: [clinicaCnpj], references: [cnpj], onDelete: Cascade)
   
   @@map("consulta")
 }
@@ -103,8 +109,10 @@ model Vacina {
   dataAplicacao DateTime @map("data_aplicacao") @db.Date
   dataValidade  DateTime? @map("data_validade") @db.Date
   animalId      Int      @map("animal_id")
+  clinicaCnpj   String   @map("clinica_cnpj") @db.VarChar(14)
   
   animal        Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  clinica       Clinica  @relation(fields: [clinicaCnpj], references: [cnpj], onDelete: Cascade)
   
   @@map("vacina")
 }
@@ -129,4 +137,15 @@ model TutorClinica {
   
   @@id([tutorCpf, clinicaCnpj])
   @@map("tutor_clinica")
+}
+
+model AnimalClinica {
+  animalId    Int      @map("animal_id")
+  clinicaCnpj String   @map("clinica_cnpj") @db.VarChar(14)
+  
+  animal      Animal   @relation(fields: [animalId], references: [id], onDelete: Cascade)
+  clinica     Clinica  @relation(fields: [clinicaCnpj], references: [cnpj], onDelete: Cascade)
+  
+  @@id([animalId, clinicaCnpj])
+  @@map("animal_clinica")
 }

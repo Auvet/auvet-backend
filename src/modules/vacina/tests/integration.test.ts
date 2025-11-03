@@ -50,6 +50,7 @@ describe('VacinaController - Testes de Integração', () => {
         dataAplicacao: '2024-01-15',
         dataValidade: '2024-12-31',
         animalId: -1,
+        clinicaCnpj: '11222333000181',
       };
 
       const response = await request(app)
@@ -67,6 +68,7 @@ describe('VacinaController - Testes de Integração', () => {
         dataAplicacao: '2030-01-01',
         dataValidade: '2030-12-31',
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       const response = await request(app)

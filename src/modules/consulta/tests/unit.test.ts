@@ -33,6 +33,7 @@ describe('ConsultaService - Testes Unitários', () => {
         status: 'agendada',
         animalId: -1,
         funcionarioCpf: '123',
+        clinicaCnpj: '11222333000181',
         observacoes: null,
       };
 
@@ -48,6 +49,7 @@ describe('ConsultaService - Testes Unitários', () => {
         status: 'status_invalido',
         animalId: 1,
         funcionarioCpf: '12345678901',
+        clinicaCnpj: '11222333000181',
         observacoes: null,
       };
 

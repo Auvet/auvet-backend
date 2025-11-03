@@ -701,6 +701,11 @@ export class ConsultaValidator {
       errors.push(cpfValidation.error!);
     }
 
+    const cnpjValidation = ClinicaValidator.validateCNPJ(data.clinicaCnpj);
+    if (!cnpjValidation.isValid) {
+      errors.push(cnpjValidation.error!);
+    }
+
     if (!data.status || typeof data.status !== 'string') {
       errors.push('Status da consulta é obrigatório');
     } else if (!['agendada', 'realizada', 'cancelada', 'remarcada'].includes(data.status)) {
@@ -735,6 +740,11 @@ export class VacinaValidator {
 
     if (!data.animalId || typeof data.animalId !== 'number' || data.animalId <= 0) {
       errors.push('ID do animal é obrigatório e deve ser um número positivo');
+    }
+
+    const cnpjValidation = ClinicaValidator.validateCNPJ(data.clinicaCnpj);
+    if (!cnpjValidation.isValid) {
+      errors.push(cnpjValidation.error!);
     }
 
     return {

@@ -32,6 +32,7 @@ export class ConsultaController {
         observacoes: req.body.observacoes || null,
         animalId: req.body.animalId,
         funcionarioCpf: req.body.funcionarioCpf,
+        clinicaCnpj: req.body.clinicaCnpj,
       };
 
       const consulta = await this.consultaService.createConsulta(consultaData);
@@ -174,6 +175,7 @@ export class ConsultaController {
       if (req.body.observacoes !== undefined) {updateData.observacoes = req.body.observacoes || null;}
       if (req.body.animalId !== undefined) {updateData.animalId = req.body.animalId;}
       if (req.body.funcionarioCpf !== undefined) {updateData.funcionarioCpf = req.body.funcionarioCpf;}
+      if (req.body.clinicaCnpj !== undefined) {updateData.clinicaCnpj = req.body.clinicaCnpj;}
 
       const updatedConsulta = await this.consultaService.update(id, updateData);
 

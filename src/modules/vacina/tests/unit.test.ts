@@ -30,6 +30,7 @@ describe('VacinaService - Testes Unitários', () => {
         dataAplicacao: new Date('2024-01-15'),
         dataValidade: new Date('2024-12-31'),
         animalId: -1,
+        clinicaCnpj: '11222333000181',
       };
 
       await expect(vacinaService.createVacina(vacinaData))
@@ -43,6 +44,7 @@ describe('VacinaService - Testes Unitários', () => {
         dataAplicacao: new Date('2030-01-01'),
         dataValidade: new Date('2030-12-31'),
         animalId: 1,
+        clinicaCnpj: '11222333000181',
       };
 
       await expect(vacinaService.createVacina(vacinaData))

@@ -53,6 +53,7 @@ describe('ConsultaController - Testes de Integração', () => {
         status: 'agendada',
         animalId: -1,
         funcionarioCpf: '123',
+        clinicaCnpj: '11222333000181',
         observacoes: null,
       };
 
@@ -72,6 +73,7 @@ describe('ConsultaController - Testes de Integração', () => {
         status: 'status_invalido',
         animalId: 1,
         funcionarioCpf: '12345678901',
+        clinicaCnpj: '11222333000181',
         observacoes: null,
       };
 

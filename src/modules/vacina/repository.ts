@@ -9,7 +9,7 @@ export class VacinaRepository {
       data,
     });
 
-    return vacina;
+    return vacina as Vacina;
   }
 
   async findById(id: number): Promise<Vacina | null> {
@@ -17,7 +17,7 @@ export class VacinaRepository {
       where: { id },
     });
 
-    return vacina;
+    return vacina as Vacina | null;
   }
 
   async findByAnimalId(animalId: number): Promise<Vacina[]> {
@@ -25,12 +25,12 @@ export class VacinaRepository {
       where: { animalId },
     });
 
-    return vacinas;
+    return vacinas as Vacina[];
   }
 
   async findAll(): Promise<Vacina[]> {
     const vacinas = await this.prisma.vacina.findMany();
-    return vacinas;
+    return vacinas as Vacina[];
   }
 
   async update(id: number, data: Partial<Vacina>): Promise<Vacina | null> {
@@ -40,7 +40,7 @@ export class VacinaRepository {
         data,
       });
 
-      return vacina;
+      return vacina as Vacina | null;
     } catch (error) {
       console.error('Erro ao atualizar vacina:', error);
       return null;

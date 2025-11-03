@@ -8,14 +8,14 @@ export class ConsultaRepository {
     const consulta = await this.prisma.consulta.create({
       data,
     });
-    return consulta;
+    return consulta as Consulta;
   }
 
   async findById(id: number): Promise<Consulta | null> {
     const consulta = await this.prisma.consulta.findUnique({
       where: { id },
     });
-    return consulta;
+    return consulta as Consulta | null;
   }
 
   async findByAnimalId(animalId: number): Promise<Consulta[]> {
@@ -23,7 +23,7 @@ export class ConsultaRepository {
       where: { animalId },
       orderBy: { data: 'desc' },
     });
-    return consultas;
+    return consultas as Consulta[];
   }
 
   async findByFuncionarioCpf(funcionarioCpf: string): Promise<Consulta[]> {
@@ -31,14 +31,14 @@ export class ConsultaRepository {
       where: { funcionarioCpf },
       orderBy: { data: 'desc' },
     });
-    return consultas;
+    return consultas as Consulta[];
   }
 
   async findAll(): Promise<Consulta[]> {
     const consultas = await this.prisma.consulta.findMany({
       orderBy: { data: 'desc' },
     });
-    return consultas;
+    return consultas as Consulta[];
   }
 
   async update(id: number, data: Partial<Omit<Consulta, 'id'>>): Promise<Consulta | null> {
@@ -47,7 +47,7 @@ export class ConsultaRepository {
         where: { id },
         data,
       });
-      return consulta;
+      return consulta as Consulta | null;
     } catch (error) {
       console.error('Erro ao atualizar consulta:', error);
       return null;

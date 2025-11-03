@@ -9,6 +9,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
       status: 'agendada',
       animalId: 1,
       funcionarioCpf: ValidatorUtils.generateRandomCPF(),
+      clinicaCnpj: '11222333000181',
     };
 
     it('deve validar dados da consulta válidos', () => {
@@ -69,6 +70,7 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
       { field: 'status', description: 'Status obrigatório' },
       { field: 'animalId', description: 'AnimalId obrigatório' },
       { field: 'funcionarioCpf', description: 'CPF do funcionário obrigatório' },
+      { field: 'clinicaCnpj', description: 'CNPJ da clínica obrigatório' },
     ];
 
     requiredFields.forEach(({ field, description }) => {
@@ -88,6 +90,22 @@ describe('ConsultaValidator - Testes Parametrizados', () => {
         const validDataWithStatus = { ...validData, status };
         const result = ConsultaValidator.validateConsultaData(validDataWithStatus);
         expect(result.isValid).toBe(true);
+      });
+    });
+
+    const cnpjInvalidCases = [
+      { cnpj: '123', description: 'CNPJ muito curto' },
+      { cnpj: '1234567890123456', description: 'CNPJ muito longo' },
+      { cnpj: '00000000000000', description: 'CNPJ com zeros' },
+      { cnpj: '11111111111111', description: 'CNPJ com dígitos repetidos' },
+    ];
+
+    cnpjInvalidCases.forEach(({ cnpj, description }) => {
+      it(`deve rejeitar CNPJ inválido - ${description}`, () => {
+        const invalidData = { ...validData, clinicaCnpj: cnpj };
+        const result = ConsultaValidator.validateConsultaData(invalidData);
+        expect(result.isValid).toBe(false);
+        expect(result.errors.length).toBeGreaterThan(0);
       });
     });
   });
