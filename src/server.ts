@@ -8,14 +8,22 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env['PORT'] || 3000;
+const DEFAULT_ALLOWED_ORIGINS = [
+  'http://localhost:5173',
+  'https://auvet-frontendd.vercel.app',
+  'https://auvet-frontend.onrender.com',
+  'https://auvet-frontend.vercel.app',
+];
 const corsEnv = process.env['CORS_ORIGINS'] || process.env['CORS_ORIGIN'];
-const allowedOrigins = (corsEnv || 'http://localhost:5173,https://auvet-frontendd.vercel.app')
+const allowedOrigins = (corsEnv || DEFAULT_ALLOWED_ORIGINS.join(','))
   .split(',')
   .map((origin) => origin.trim())
   .filter((origin) => origin.length > 0);
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
+  res.header('Vary', 'Origin');
+
   if (origin && allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
