@@ -1,11 +1,21 @@
 import { TutorClinicaRepository } from './repository';
 import { TutorClinica } from '../../types';
+import { TutorRepository } from '../tutor/repository';
+import { UsuarioRepository } from '../usuario/repository';
 
 export class TutorClinicaService {
   private tutorClinicaRepository: TutorClinicaRepository;
+  private tutorRepository: TutorRepository;
+  private usuarioRepository: UsuarioRepository;
 
-  constructor() {
-    this.tutorClinicaRepository = new TutorClinicaRepository();
+  constructor(
+    tutorClinicaRepository?: TutorClinicaRepository,
+    tutorRepository?: TutorRepository,
+    usuarioRepository?: UsuarioRepository,
+  ) {
+    this.tutorClinicaRepository = tutorClinicaRepository || new TutorClinicaRepository();
+    this.tutorRepository = tutorRepository || new TutorRepository();
+    this.usuarioRepository = usuarioRepository || new UsuarioRepository();
   }
 
   async create(data: TutorClinica): Promise<TutorClinica> {
@@ -64,7 +74,27 @@ export class TutorClinicaService {
 
     const clínicas = await this.tutorClinicaRepository.findByTutor(tutorCpf);
     if (clínicas.length === 1) {
-      throw new Error('Tutor deve estar vinculado a pelo menos uma clínica. Não é possível remover a última clínica.');
+      console.log('Última clínica vinculada ao tutor. Removendo tutor e relação.');
+
+      const tutorDeleted = await this.tutorRepository.delete(tutorCpf);
+
+      if (!tutorDeleted) {
+        throw new Error('Falha ao remover tutor vinculado à clínica informada');
+      }
+
+      const usuarioDeleted = await this.usuarioRepository.delete(tutorCpf);
+
+      if (!usuarioDeleted) {
+        console.warn(`Usuário associado ao tutor ${tutorCpf} não pôde ser removido ou já havia sido excluído.`);
+      }
+
+      try {
+        await this.tutorClinicaRepository.delete(tutorCpf, clinicaCnpj);
+      } catch (error) {
+        console.warn('Relação tutor-clínica já removida automaticamente ao excluir o tutor.', error);
+      }
+
+      return true;
     }
 
     const deleted = await this.tutorClinicaRepository.delete(tutorCpf, clinicaCnpj);
