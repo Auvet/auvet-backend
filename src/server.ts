@@ -15,10 +15,10 @@ const DEFAULT_ALLOWED_ORIGINS = [
   'https://auvet-frontend.vercel.app',
 ];
 const corsEnv = process.env['CORS_ORIGINS'] || process.env['CORS_ORIGIN'];
-const allowedOrigins = (corsEnv || DEFAULT_ALLOWED_ORIGINS.join(','))
-  .split(',')
+const envOrigins = (corsEnv ? corsEnv.split(',') : [])
   .map((origin) => origin.trim())
   .filter((origin) => origin.length > 0);
+const allowedOrigins = Array.from(new Set([...DEFAULT_ALLOWED_ORIGINS, ...envOrigins]));
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
@@ -28,7 +28,14 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+  const requestHeaders = req.headers['access-control-request-headers'];
+  res.header(
+    'Access-Control-Allow-Headers',
+    typeof requestHeaders === 'string' && requestHeaders.length > 0
+      ? requestHeaders
+      : 'Content-Type, Authorization, X-Requested-With, Accept'
+  );
   res.header('Access-Control-Allow-Credentials', 'true');
 
   if (req.method === 'OPTIONS') {
