@@ -34,7 +34,7 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Headers',
     typeof requestHeaders === 'string' && requestHeaders.length > 0
       ? requestHeaders
-      : 'Content-Type, Authorization, X-Requested-With, Accept'
+      : 'Content-Type, Authorization, X-Requested-With, Accept',
   );
   res.header('Access-Control-Allow-Credentials', 'true');
 
